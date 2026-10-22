@@ -34,14 +34,15 @@ body {
   font: 17px/1.6 -apple-system, BlinkMacSystemFont, "Helvetica Neue", Arial, sans-serif;
 }
 
+/* Høydekurvene: én SVG brukt som maske, så fargen følger lys/mørk modus. */
 .kart {
   position: fixed;
   inset: 0;
-  width: 100%;
-  height: 100%;
-  stroke: var(--kurve);
   z-index: 0;
   pointer-events: none;
+  background: var(--kurve);
+  -webkit-mask: url("/kart.svg") center / cover no-repeat;
+  mask: url("/kart.svg") center / cover no-repeat;
 }
 
 main {
@@ -58,14 +59,17 @@ main {
   box-shadow: 0 20px 50px -30px rgba(60, 40, 10, 0.35);
 }
 
+main.bred { max-width: 46rem; }
+
 @media (max-width: 44rem) {
-  main { margin: 1.5rem 1rem; padding: 2rem 1.25rem 1.5rem; }
+  main, main.bred { margin: 1.5rem 1rem; padding: 2rem 1.25rem 1.5rem; }
 }
 
 h1 {
   font-size: 2rem;
   margin: 0 0 0.5rem;
   letter-spacing: -0.01em;
+  line-height: 1.2;
 }
 
 h2 {
@@ -73,21 +77,60 @@ h2 {
   margin: 0 0 0.4rem;
 }
 
+h3 {
+  font-size: 1rem;
+  margin: 1.25rem 0 0.25rem;
+}
+
 .ingress {
   color: var(--dempet);
   margin: 0 0 2rem;
 }
 
-.apper article {
+.apper article,
+.del {
   border-top: 1px solid var(--linje);
   padding: 1.5rem 0;
 }
 
 .apper p { margin: 0 0 0.5rem; }
 
+.del p, .del ul { margin: 0 0 0.75rem; }
+.del ul { padding-left: 1.2rem; }
+.del li { margin-bottom: 0.35rem; }
+
 .status {
   color: var(--dempet);
   font-size: 0.95rem;
+}
+
+.lenker { font-size: 0.95rem; }
+
+.sti {
+  font-size: 0.9rem;
+  color: var(--dempet);
+  margin: 0 0 1.5rem;
+}
+
+.sti a { color: var(--dempet); }
+
+.faner {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.25rem 1.25rem;
+  margin: 0 0 1.5rem;
+  font-size: 0.95rem;
+}
+
+.faner a[aria-current="page"] {
+  color: var(--tekst);
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.liten {
+  color: var(--dempet);
+  font-size: 0.9rem;
 }
 
 footer {
