@@ -1,0 +1,95 @@
+# Bygger og publiserer roijenapp.no på GitHub Pages, med trafikkmeldinger fra
+# Statens vegvesen (DATEX) som data/trafikkmeldinger.json.
+#
+# - Ved push til main og når jobben startes for hånd: hele nettsiden publiseres.
+# - Hvert 10. minutt: trafikkmeldingene hentes; nettsiden publiseres bare når
+#   meldingene er endret. Ingen commit per oppdatering.
+#
+# Hemmeligheter (Settings → Secrets and variables → Actions), legges inn av Mikael:
+#   DATEX_USER, DATEX_PASSWORD
+# Bare GitHubs egne actions brukes, festet til commit.
+
+name: Nettside og trafikkmeldinger
+
+on:
+  push:
+    branches: [main]
+  schedule:
+    - cron: "*/10 * * * *"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+jobs:
+  bygg:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    outputs:
+      publiser: ${{ steps.valg.outputs.publiser }}
+    steps:
+      - name: Hent nettsiden
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+
+      - name: Hent forrige trafikkmeldinger
+        run: curl -fsS --max-time 30 https://roijenapp.no/data/trafikkmeldinger.json -o forrige.json || rm -f forrige.json
+
+      - name: Hent og plukk ut trafikkmeldinger
+        id: datex
+        env:
+          DATEX_USER: ${{ secrets.DATEX_USER }}
+          DATEX_PASSWORD: ${{ secrets.DATEX_PASSWORD }}
+        run: |
+          set +e
+          python3 tools/datex_uttrekk.py --forrige forrige.json --ut data/trafikkmeldinger.json --github-output
+          kode=$?
+          echo "kode=$kode" >> "$GITHUB_OUTPUT"
+          if [ "$kode" = "2" ]; then echo "::warning::Henting av trafikkmeldinger feilet – forrige fil beholdes."; fi
+          exit 0
+
+      - name: Skal nettsiden publiseres?
+        id: valg
+        run: |
+          if [ "${{ github.event_name }}" != "schedule" ] || [ "${{ steps.datex.outputs.endret }}" = "true" ]; then
+            echo "publiser=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "publiser=false" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Sett sammen nettsiden
+        if: steps.valg.outputs.publiser == 'true'
+        run: |
+          mkdir _site
+          git archive HEAD | tar -x -C _site
+          rm -rf _site/.github _site/tools
+          if [ -f data/trafikkmeldinger.json ]; then
+            mkdir -p _site/data
+            cp data/trafikkmeldinger.json _site/data/
+            ls -l _site/data
+          fi
+
+      - name: Last opp nettsiden
+        if: steps.valg.outputs.publiser == 'true'
+        uses: actions/upload-pages-artifact@fc324d3547104276b827a68afc52ff2a11cc49c9 # v5.0.0
+        with:
+          path: _site
+
+  publiser:
+    needs: bygg
+    if: needs.bygg.outputs.publiser == 'true'
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.utrulling.outputs.page_url }}
+    steps:
+      - name: Publiser på GitHub Pages
+        id: utrulling
+        uses: actions/deploy-pages@368f82528645a54fb793d4d04e342629a3f51346 # v5.0.1
