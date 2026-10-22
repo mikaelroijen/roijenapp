@@ -1,0 +1,53 @@
+<!doctype html>
+<html lang="nb">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Svingete veier – datasett</title>
+  <meta name="description" content="Datasettet bak kartlaget «Svingete veier» i RuteLogger, under Open Database License (ODbL).">
+  <link rel="stylesheet" href="/style.css">
+</head>
+<body>
+  <div class="kart" aria-hidden="true"></div>
+
+  <main class="bred">
+    <p class="sti"><a href="/">Røijen Applikasjoner</a> › <a href="/rutelogger/">RuteLogger</a> › <a href="/rutelogger/kreditering/">Datakilder</a> › Svingete veier</p>
+
+    <header>
+      <h1>Svingete veier – datasett</h1>
+      <p class="ingress">Datasettet bak kartlaget «Svingete veier» i RuteLogger: 5007 svingete veistrekninger i Norge og Sverige, beregnet fra OpenStreetMap.</p>
+    </header>
+
+    <section class="del">
+      <h2>Last ned</h2>
+      <ul>
+        <li><a href="svingete_veier.json" download>svingete_veier.json</a> – hele datasettet (JSON, ca. 2 MB)</li>
+        <li><a href="README.md">README.md</a> – format, kilde og metode</li>
+        <li><a href="LICENSE.txt">LICENSE.txt</a> – lisensteksten</li>
+        <li><a href="metode/svingkart_land.py">metode/svingkart_land.py</a> og <a href="metode/svingkart_til_app.py">metode/svingkart_til_app.py</a> – skriptene som lager datasettet</li>
+      </ul>
+      <p class="liten">Gratis. Ingen registrering.</p>
+    </section>
+
+    <section class="del">
+      <h2>Lisens</h2>
+      <p>Inneholder informasjon fra <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> (© OpenStreetMap-bidragsytere), som er gjort tilgjengelig her under <a href="https://opendatacommons.org/licenses/odbl/1-0/">Open Database License (ODbL)</a>.</p>
+    </section>
+
+    <section class="del">
+      <h2>Kilde og metode</h2>
+      <p>Kildedata er OpenStreetMap-filene for Norge og Sverige fra Geofabrik, beregnet 15. oktober 2026. Datasettet hører til RuteLogger 1.0.</p>
+      <p>Vegene som tas med, er de større vegene i OpenStreetMap (typene trunk, primary, secondary og tertiary), uten grus og uten strekninger med fartsgrense 40 km/t eller lavere. Et parti regnes som svingete når vegen svinger minst 150° per kilometer over en strekning på minst 2 km. Detaljene står i README-fila.</p>
+    </section>
+
+    <section class="del">
+      <h2>Ansvar</h2>
+      <p>Datasettet er beregnet automatisk og kan inneholde feil. Det sier ingenting om vegens tilstand eller om det er trygt å kjøre der. Kjør alltid etter skilt og forholdene på vegen.</p>
+    </section>
+
+    <footer>
+      <p class="liten">© 2026 Mikael Røijen · <a href="mailto:support@roijenapp.no">support@roijenapp.no</a></p>
+    </footer>
+  </main>
+</body>
+</html>
