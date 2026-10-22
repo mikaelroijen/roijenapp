@@ -2,7 +2,7 @@
 # Statens vegvesen (DATEX) som data/trafikkmeldinger.json.
 #
 # - Ved push til main og når jobben startes for hånd: hele nettsiden publiseres.
-# - Hvert 10. minutt: trafikkmeldingene hentes; nettsiden publiseres bare når
+# - Hvert 20. minutt: trafikkmeldingene hentes; nettsiden publiseres bare når
 #   meldingene er endret. Ingen commit per oppdatering.
 #
 # Hemmeligheter (Settings → Secrets and variables → Actions), legges inn av Mikael:
@@ -15,7 +15,7 @@ on:
   push:
     branches: [main]
   schedule:
-    - cron: "*/10 * * * *"
+    - cron: "*/20 * * * *"
   workflow_dispatch:
 
 permissions:

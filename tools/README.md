@@ -2,7 +2,7 @@
 
 `datex_uttrekk.py` henter trafikkmeldinger (DATEX II v3.1, `GetSituation/pullsnapshotdata`), plukker ut
 stengte veger og vegarbeid med ventetid, og skriver `data/trafikkmeldinger.json`. Jobben
-`.github/workflows/nettside.yml` kjører det hvert 10. minutt og publiserer fila på
+`.github/workflows/nettside.yml` kjører det hvert 20. minutt og publiserer fila på
 https://roijenapp.no/data/trafikkmeldinger.json. Mappen `tools/` publiseres ikke.
 
 Brukernavn og passord ligger **bare** som GitHub-hemmelighetene `DATEX_USER` og `DATEX_PASSWORD`.
