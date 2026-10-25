@@ -1,0 +1,53 @@
+<!doctype html>
+<html lang="nb">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Steder langs ruten – datasett</title>
+  <meta name="description" content="Datasettet bak «Søk langs ruten» i RuteLogger: bensin, lading, mat, overnatting og rasteplasser i Norden fra OpenStreetMap, under ODbL.">
+  <link rel="stylesheet" href="/style.css">
+</head>
+<body>
+  <div class="kart" aria-hidden="true"></div>
+
+  <main class="bred">
+    <p class="sti"><a href="/">Røijen Applikasjoner</a> › <a href="/rutelogger/">RuteLogger</a> › <a href="/rutelogger/kreditering/">Datakilder</a> › Steder langs ruten</p>
+
+    <header>
+      <h1>Steder langs ruten – datasett</h1>
+      <p class="ingress">Datasettet bak «Søk langs ruten» og «nærmeste bensinstasjon» i RuteLogger: 93 505 steder i Norge, Sverige, Finland, Danmark og Island, hentet fra OpenStreetMap.</p>
+    </header>
+
+    <section class="del">
+      <h2>Last ned</h2>
+      <ul>
+        <li><a href="steder.json" download>steder.json</a> – hele datasettet (JSON, ca. 3,7 MB)</li>
+        <li><a href="README.md">README.md</a> – format, kilde, tall per land og metode</li>
+        <li><a href="LICENSE.txt">LICENSE.txt</a> – lisensteksten</li>
+        <li><a href="metode/steder_til_app.py">metode/steder_til_app.py</a> – skriptet som lager datasettet</li>
+      </ul>
+      <p class="liten">Gratis. Ingen registrering.</p>
+    </section>
+
+    <section class="del">
+      <h2>Lisens</h2>
+      <p>Inneholder informasjon fra <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> (© OpenStreetMap-bidragsytere), som er gjort tilgjengelig her under <a href="https://opendatacommons.org/licenses/odbl/1-0/">Open Database License (ODbL)</a>.</p>
+    </section>
+
+    <section class="del">
+      <h2>Innhold, kilde og metode</h2>
+      <p>Bensinstasjoner, ladestasjoner, kafeer, restauranter og gatekjøkken, overnatting (hotell, motell, gjestehus, vandrerhjem og camping) og rasteplasser. Kildedata er OpenStreetMap-filene for de fem landene fra Geofabrik. Datasettet ble laget 25. oktober 2026 og er det samme som ligger i appen.</p>
+      <p>Steder som er merket private, tas ikke med, og heller ikke bensinanlegg for båt. I appen brukes rasteplassene fra datasettet utenfor Norge. I Norge kommer rasteplassene fra Statens vegvesen. Detaljene står i README-fila.</p>
+    </section>
+
+    <section class="del">
+      <h2>Ansvar</h2>
+      <p>Datasettet er hentet automatisk fra OpenStreetMap og kan være ufullstendig eller utdatert. Særlig ladestasjoner kan mangle.</p>
+    </section>
+
+    <footer>
+      <p class="liten">© 2026 Mikael Røijen · <a href="mailto:support@roijenapp.no">support@roijenapp.no</a></p>
+    </footer>
+  </main>
+</body>
+</html>
