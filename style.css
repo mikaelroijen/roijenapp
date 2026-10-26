@@ -164,3 +164,22 @@ pre.lisens {
   max-height: 24rem;
   overflow: auto;
 }
+
+pre.lisens.lang { max-height: none; }
+
+.tabell { overflow-x: auto; margin: 0 0 0.75rem; }
+
+.tabell table {
+  border-collapse: collapse;
+  font-size: 0.92rem;
+  width: 100%;
+}
+
+.tabell th, .tabell td {
+  text-align: left;
+  vertical-align: top;
+  padding: 0.45rem 0.6rem 0.45rem 0;
+  border-bottom: 1px solid var(--linje);
+}
+
+.tabell th { font-weight: 600; }
