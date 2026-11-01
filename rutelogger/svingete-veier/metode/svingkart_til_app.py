@@ -6,16 +6,23 @@ fra svingkart_land.json, som svingkart_land.py lager fra Geofabrik-filene.
 
     python3 Tools/svingkart_til_app.py ~/Downloads/svingkart_land.json
 
-Format (lest av SvingeteVeier.swift):
-  {"v":1, "laget":"…", "s":[{"r":rang, "v":vei, "n":navn, "l":km, "g":grader,
+Format (lest av RuteKjerne/CurvyRoads.swift):
+  {"kilde":"…", "lisens":"…", "info":"…", "v":1, "laget":"…", "s":[{"r":rang, "v":vei, "n":navn, "l":km, "g":grader,
                              "k":klasse 0/1/2, "p":[lat0, lon0, dlat, dlon, …]}]}
   - klasse: 0 = svingete (< 300 °/km, også «litt svingete» som har fått
     lavere snitt etter sammenslåing), 1 = veldig svingete (300–500),
     2 = kronglete (≥ 500)
   - p: koordinater × 100 000 som heltall; første punkt absolutt, resten som
     differanse til forrige punkt (gjør fila omtrent halvparten så stor).
+  - kilde, lisens, info (22. okt 2026, ODbL §4.2): lisensen og kilden skal stå
+    i selve datasettet. Samme felt som i den publiserte fila på
+    https://roijenapp.no/rutelogger/svingete-veier/ (appen leser dem ikke).
 """
 import json, os, sys
+
+KILDE = "© OpenStreetMap-bidragsytere (https://www.openstreetmap.org/copyright)"
+LISENS = "Open Database License (ODbL) 1.0 – https://opendatacommons.org/licenses/odbl/1-0/"
+INFO = "https://roijenapp.no/rutelogger/svingete-veier/"
 
 src = sys.argv[1] if len(sys.argv) > 1 else os.path.expanduser("~/Downloads/svingkart_land.json")
 here = os.path.dirname(os.path.abspath(__file__))
@@ -38,5 +45,6 @@ for p in d["partier"]:
                "g": p["grader"], "k": k, "p": flat})
 os.makedirs(os.path.dirname(dst), exist_ok=True)
 with open(dst, "w", encoding="utf-8") as f:
-    json.dump({"v": 1, "laget": d.get("laget", ""), "s": ut}, f, ensure_ascii=False, separators=(",", ":"))
+    json.dump({"kilde": KILDE, "lisens": LISENS, "info": INFO,
+               "v": 1, "laget": d.get("laget", ""), "s": ut}, f, ensure_ascii=False, separators=(",", ":"))
 print(f"{len(ut)} strekninger -> {os.path.normpath(dst)} ({os.path.getsize(dst)/1e6:.1f} MB)")

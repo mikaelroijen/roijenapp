@@ -15,13 +15,13 @@
 
     <header>
       <h1>Svingete veier – datasett</h1>
-      <p class="ingress">Datasettet bak kartlaget «Svingete veier» i RuteLogger: 5007 svingete veistrekninger i Norge og Sverige, beregnet fra OpenStreetMap.</p>
+      <p class="ingress">Datasettet bak kartlaget «Svingete veier» i RuteLogger: 6061 svingete veistrekninger i Norge, Sverige, Finland, Danmark og Island, beregnet fra OpenStreetMap.</p>
     </header>
 
     <section class="del">
       <h2>Last ned</h2>
       <ul>
-        <li><a href="svingete_veier.json" download>svingete_veier.json</a> – hele datasettet (JSON, ca. 2 MB)</li>
+        <li><a href="svingete_veier.json" download>svingete_veier.json</a> – hele datasettet (JSON, ca. 2,5 MB)</li>
         <li><a href="README.md">README.md</a> – format, kilde og metode</li>
         <li><a href="LICENSE.txt">LICENSE.txt</a> – lisensteksten</li>
         <li><a href="metode/svingkart_land.py">metode/svingkart_land.py</a> og <a href="metode/svingkart_til_app.py">metode/svingkart_til_app.py</a> – skriptene som lager datasettet</li>
@@ -36,7 +36,21 @@
 
     <section class="del">
       <h2>Kilde og metode</h2>
-      <p>Kildedata er OpenStreetMap-filene for Norge og Sverige fra Geofabrik, beregnet 15. oktober 2026. Datasettet hører til RuteLogger 1.0.</p>
+      <p>Kildedata er OpenStreetMap-filene for hvert land fra Geofabrik. Datasettet er beregnet 1. november 2026 og hører til RuteLogger 1.0.</p>
+      <div class="tabell">
+        <table>
+          <thead><tr><th>Land</th><th>Strekninger</th><th>km</th><th>Beregnet fra OpenStreetMap</th></tr></thead>
+          <tbody>
+            <tr><td>Norge</td><td>2891</td><td>13 640</td><td>15. oktober 2026</td></tr>
+            <tr><td>Sverige</td><td>2116</td><td>9 210</td><td>15. oktober 2026</td></tr>
+            <tr><td>Finland</td><td>888</td><td>3 364</td><td>1. november 2026</td></tr>
+            <tr><td>Danmark</td><td>143</td><td>392</td><td>1. november 2026</td></tr>
+            <tr><td>Island</td><td>23</td><td>81</td><td>1. november 2026</td></tr>
+            <tr><td><strong>Til sammen</strong></td><td><strong>6061</strong></td><td><strong>ca. 26 690</strong></td><td></td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p>Island har få strekninger fordi nesten halvparten av landevegene der er grus. Færøyene og Grønland er ikke med.</p>
       <p>Vegene som tas med, er de større vegene i OpenStreetMap (typene trunk, primary, secondary og tertiary), uten grus og uten strekninger med fartsgrense 40 km/t eller lavere. Et parti regnes som svingete når vegen svinger minst 150° per kilometer over en strekning på minst 2 km. Detaljene står i README-fila.</p>
     </section>
 
