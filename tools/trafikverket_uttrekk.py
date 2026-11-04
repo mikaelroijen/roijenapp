@@ -87,6 +87,24 @@ def oversikt(situasjoner):
             restr[d["TrafficRestrictionType"]] += 1
     ut = ["Sverige – MessageType / MessageTypeValue / MessageCode / MessageCodeValue: antall"]
     ut += [f"  {a} / {b} / {c} / {e}: {n}" for (a, b, c, e), n in sorted(koder.items(), key=lambda x: -x[1])]
+    # Vegarbeid sier ikke i kodene om det er lysregulering eller ventetid; tell ord i teksten.
+    ord_ = {"signal": 0, "trafikljus": 0, "omväxlande": 0, "växelvis": 0, "väntetid": 0, "lots": 0,
+            "flaggvakt": 0, "stopp": 0, "avstängd": 0, "enkelriktad": 0, "körfält": 0}
+    for _, d in _avvik(situasjoner):
+        if d.get("MessageType") == "Vägarbete":
+            tekst_ = f"{d.get('Message') or ''} {d.get('TemporaryLimit') or ''}".lower()
+            for o in ord_:
+                ord_[o] += o in tekst_
+    ut.append("Sverige – vegarbeid (MessageType Vägarbete) der teksten inneholder ordet: antall")
+    ut += [f"  {o}: {n}" for o, n in ord_.items()]
+    utvalgt = Counter()
+    for _, d in _avvik(situasjoner):
+        k = d.get("MessageCodeValue")
+        if k in STENGT or k in VEGARBEID:
+            utvalgt[(k, "pause" if d.get("Suspended") else "aktiv",
+                     "utløpt" if utløpt(iso_lokal(d.get("EndTime"), SONE)) and not d.get("ValidUntilFurtherNotice") else "")] += 1
+    ut.append("Sverige – utvalgte koder etter Suspended/utløpt: antall")
+    ut += [f"  {a} {b} {c}: {n}" for (a, b, c), n in sorted(utvalgt.items())]
     ut.append("Sverige – TrafficRestrictionType: antall")
     ut += [f"  {k}: {n}" for k, n in restr.most_common(40)]
     return ut

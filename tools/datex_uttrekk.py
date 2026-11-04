@@ -454,6 +454,12 @@ def main():
             typer[m["type"]] = typer.get(m["type"], 0) + 1
         print(f"{land}: {len(ml)} meldinger ({status[land]}): "
               + ", ".join(f"{k} {v}" for k, v in sorted(typer.items())))
+        if land != "NO":                       # eksempler til loggen (åpne data), ett per type
+            sett = set()
+            for m in ml:
+                if m["type"] not in sett:
+                    sett.add(m["type"])
+                    print(f"  eksempel {land}: " + json.dumps(m, ensure_ascii=False)[:1500])
 
     def fil(land_liste):
         meldinger = [m for land in land_liste for m in per_land.get(land, [])]
