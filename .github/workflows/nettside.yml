@@ -1,12 +1,14 @@
 # Bygger og publiserer roijenapp.no på GitHub Pages, med trafikkmeldinger fra
-# Statens vegvesen (DATEX) som data/trafikkmeldinger.json.
+# Statens vegvesen (DATEX), Trafikverket og Fintraffic/Digitraffic som data/trafikkmeldinger.json.
+# Prøveperiode (4. nov 2026): hovedfila har bare Norge; alle tre land står i
+# data/trafikkmeldinger-norden-test.json til Chat A har avgjort utvalget.
 #
 # - Ved push til main og når jobben startes for hånd: hele nettsiden publiseres.
 # - Hvert 20. minutt: trafikkmeldingene hentes; nettsiden publiseres bare når
 #   meldingene er endret. Ingen commit per oppdatering.
 #
 # Hemmeligheter (Settings → Secrets and variables → Actions), legges inn av Mikael:
-#   DATEX_USER, DATEX_PASSWORD
+#   DATEX_USER, DATEX_PASSWORD, TRAFIKVERKET_NOKKEL
 # Bare GitHubs egne actions brukes, festet til commit.
 
 name: Nettside og trafikkmeldinger
@@ -47,12 +49,14 @@ jobs:
         env:
           DATEX_USER: ${{ secrets.DATEX_USER }}
           DATEX_PASSWORD: ${{ secrets.DATEX_PASSWORD }}
+          TRAFIKVERKET_NOKKEL: ${{ secrets.TRAFIKVERKET_NOKKEL }}
         run: |
           set +e
-          python3 tools/datex_uttrekk.py --forrige forrige.json --ut data/trafikkmeldinger.json --github-output
+          python3 tools/datex_uttrekk.py --forrige forrige.json --ut data/trafikkmeldinger.json \
+            --land NO --test-ut data/trafikkmeldinger-norden-test.json --github-output
           kode=$?
           echo "kode=$kode" >> "$GITHUB_OUTPUT"
-          if [ "$kode" = "2" ]; then echo "::warning::Henting av trafikkmeldinger feilet – forrige fil beholdes."; fi
+          if [ "$kode" = "2" ]; then echo "::warning::Henting av norske trafikkmeldinger feilet – forrige norske meldinger beholdes."; fi
           exit 0
 
       - name: Skal nettsiden publiseres?
@@ -70,9 +74,9 @@ jobs:
           mkdir _site
           git archive HEAD | tar -x -C _site
           rm -rf _site/.github _site/tools
-          if [ -f data/trafikkmeldinger.json ]; then
+          if ls data/*.json >/dev/null 2>&1; then
             mkdir -p _site/data
-            cp data/trafikkmeldinger.json _site/data/
+            cp data/*.json _site/data/
             ls -l _site/data
           fi
 

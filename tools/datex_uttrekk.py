@@ -27,6 +27,15 @@ from datetime import datetime, timezone
 URL = "https://datex-server-get-v3-1.atlas.vegvesen.no/datexapi/GetSituation/pullsnapshotdata"
 KILDE = "Statens vegvesen – trafikkmeldinger (DATEX II), NLOD"
 LISENS = "https://data.norge.no/nlod/no/2.0"
+# Kilde og lisens per land (feltet «kilder» i fila). Sverige og Finland: se egne moduler.
+KILDER = {
+    "NO": (KILDE, "NLOD 2.0 – " + LISENS),
+    "SE": ("Trafikverket – öppna API för trafikinformation (Situation)",
+           "CC0 1.0 – https://creativecommons.org/publicdomain/zero/1.0/"),
+    "FI": ("Source: Fintraffic / digitraffic.fi, license CC 4.0 BY",
+           "CC BY 4.0 – https://creativecommons.org/licenses/by/4.0/"),
+}
+SONE = {"NO": "Europe/Oslo", "SE": "Europe/Stockholm", "FI": "Europe/Helsinki"}
 FORMAT_VERSJON = 1
 
 SIT = "{http://datex2.eu/schema/3/situation}"
@@ -364,73 +373,127 @@ def behold_forrige(a, grunn):
         shutil.copyfile(a.forrige, a.ut)
 
 
+def land_av(m):
+    return m.get("land") or "NO"
+
+
 def main():
     ap = argparse.ArgumentParser(description=__doc__.split("\n\n")[0])
     ap.add_argument("--ut", required=True, help="JSON-fila som skal skrives")
     ap.add_argument("--forrige", help="forrige publiserte JSON (for If-Modified-Since og ved feil)")
-    ap.add_argument("--fra-fil", help="les DATEX-XML fra fil i stedet for å hente")
+    ap.add_argument("--fra-fil", help="les DATEX-XML (Norge) fra fil i stedet for å hente")
+    ap.add_argument("--land", default="NO,SE,FI", help="land i hovedfila, f.eks. NO eller NO,SE,FI")
+    ap.add_argument("--test-ut", help="skriv i tillegg alle land til denne fila (prøvefil)")
     ap.add_argument("--github-output", action="store_true")
     a = ap.parse_args()
+    i_hovedfil = [x.strip().upper() for x in a.land.split(",") if x.strip()]
 
     forrige = les_json(a.forrige) if a.forrige else None
+    forrige_meldinger = (forrige or {}).get("meldinger") or []
     sist_endret = (forrige or {}).get("datex_sist_endret")
+    naa = datetime.now(timezone.utc)
+    hentet = naa.replace(microsecond=0).isoformat()
 
+    def tidligere(land):
+        return [dict(m, land=land, tidssone=m.get("tidssone") or SONE.get(land))
+                for m in forrige_meldinger if land_av(m) == land]
+
+    per_land, status = {}, {}
+    publisert = None
+    norge_feilet = False
+
+    # --- Norge (Statens vegvesen, DATEX)
     try:
         if a.fra_fil:
             with open(a.fra_fil, "rb") as f:
                 xml_bytes, last_modified = f.read(), None
         else:
             xml_bytes, last_modified = hent(sist_endret)
+        if xml_bytes is None:
+            per_land["NO"], status["NO"] = tidligere("NO"), "uendret (304)"
+        else:
+            meldinger, publisert = plukk_ut(xml_bytes, naa)
+            per_land["NO"] = [dict(m, land="NO", tidssone=SONE["NO"]) for m in meldinger]
+            status["NO"], sist_endret = "ok", last_modified
     except ManglerInnlogging:
-        print("DATEX_USER/DATEX_PASSWORD er ikke satt.")
-        behold_forrige(a, "mangler innlogging")
-        github_output(False)
-        return 4
-    except HentFeil as feil:
-        print(f"Henting feilet: {feil}")
-        behold_forrige(a, "hentefeil")
-        github_output(False)
-        return 2
+        per_land["NO"], status["NO"], norge_feilet = tidligere("NO"), "mangler DATEX_USER/DATEX_PASSWORD", True
+    except (HentFeil, ET.ParseError) as feil:
+        per_land["NO"], status["NO"], norge_feilet = tidligere("NO"), f"feil: {feil}", True
+    if publisert is None:
+        publisert = (forrige or {}).get("publisert")
 
-    if xml_bytes is None:
-        print("Ingenting nytt hos Vegvesenet (304).")
-        behold_forrige(a, "uendret")
-        github_output(False)
-        return 3
+    # --- Sverige (Trafikverket) og Finland (Digitraffic): feil i ett land stopper ikke de andre
+    if not a.fra_fil:
+        import trafikverket_uttrekk as tv
+        try:
+            sit = tv.hent()
+            for linje in tv.oversikt(sit):
+                print(linje)
+            per_land["SE"], status["SE"] = tv.plukk_ut(sit, naa), "ok"
+        except tv.ManglerNokkel:
+            per_land["SE"], status["SE"] = tidligere("SE"), "mangler TRAFIKVERKET_NOKKEL"
+        except tv.Feil as feil:
+            per_land["SE"], status["SE"] = tidligere("SE"), f"feil: {feil}"
+        except Exception as feil:                       # ukjent format o.l.: Norge skal likevel ut
+            per_land["SE"], status["SE"] = tidligere("SE"), f"feil: {type(feil).__name__}"
 
-    try:
-        meldinger, publisert = plukk_ut(xml_bytes)
-    except ET.ParseError as feil:
-        print(f"Ugyldig XML: {feil}")
-        behold_forrige(a, "ugyldig XML")
-        github_output(False)
-        return 2
+        import digitraffic_uttrekk as dt
+        try:
+            data_fi = dt.hent()
+            for linje in dt.oversikt(data_fi):
+                print(linje)
+            per_land["FI"], status["FI"] = dt.plukk_ut(data_fi, naa), "ok"
+        except dt.Feil as feil:
+            per_land["FI"], status["FI"] = tidligere("FI"), f"feil: {feil}"
+        except Exception as feil:
+            per_land["FI"], status["FI"] = tidligere("FI"), f"feil: {type(feil).__name__}"
 
-    data = {
-        "versjon": FORMAT_VERSJON,
-        "hentet": datetime.now(timezone.utc).replace(microsecond=0).isoformat(),
-        "publisert": publisert,
-        "datex_sist_endret": last_modified,
-        "kilde": KILDE,
-        "lisens": LISENS,
-        "antall": len(meldinger),
-        "meldinger": meldinger,
-    }
-    if forrige and forrige.get("meldinger") == meldinger:
-        print(f"Samme {len(meldinger)} meldinger som før.")
+    for land, ml in per_land.items():
+        typer = {}
+        for m in ml:
+            typer[m["type"]] = typer.get(m["type"], 0) + 1
+        print(f"{land}: {len(ml)} meldinger ({status[land]}): "
+              + ", ".join(f"{k} {v}" for k, v in sorted(typer.items())))
+
+    def fil(land_liste):
+        meldinger = [m for land in land_liste for m in per_land.get(land, [])]
+        meldinger.sort(key=lambda m: (land_av(m), m["kategori"], m.get("veg") or "", m["id"]))
+        return {
+            "versjon": FORMAT_VERSJON,
+            "hentet": hentet,
+            "publisert": publisert,
+            "datex_sist_endret": sist_endret,
+            "kilde": KILDE,
+            "lisens": LISENS,
+            "kilder": [{"land": land, "kilde": KILDER[land][0], "lisens": KILDER[land][1],
+                        "antall": len(per_land.get(land, [])), "status": status.get(land, "ikke hentet")}
+                       for land in land_liste if land in KILDER],
+            "antall": len(meldinger),
+            "meldinger": meldinger,
+        }
+
+    endret = False
+    data = fil(i_hovedfil)
+    if forrige and forrige.get("meldinger") == data["meldinger"]:
+        print(f"Hovedfila: samme {data['antall']} meldinger som før.")
         behold_forrige(a, "samme innhold")
-        github_output(False)
-        return 3
-
-    rå, komprimert = skriv_ut(a.ut, data)
-    typer = {}
-    for m in meldinger:
-        typer[m["type"]] = typer.get(m["type"], 0) + 1
-    print(f"{len(meldinger)} meldinger: " + ", ".join(f"{k} {v}" for k, v in sorted(typer.items())))
-    print(f"Fil: {rå/1024:.0f} kB ({komprimert/1024:.0f} kB med gzip)")
-    github_output(True)
-    return 0
+    else:
+        rå, komprimert = skriv_ut(a.ut, data)
+        print(f"Hovedfila ({','.join(i_hovedfil)}): {data['antall']} meldinger, "
+              f"{rå/1024:.0f} kB ({komprimert/1024:.0f} kB med gzip)")
+        endret = True
+    if a.test_ut:
+        prøve = fil(["NO", "SE", "FI"])
+        rå, komprimert = skriv_ut(a.test_ut, prøve)
+        print(f"Prøvefila (NO,SE,FI): {prøve['antall']} meldinger, {rå/1024:.0f} kB ({komprimert/1024:.0f} kB med gzip)")
+        endret = True
+    if a.github_output:
+        github_output(endret)
+    if norge_feilet:
+        return 2
+    return 0 if endret else 3
 
 
 if __name__ == "__main__":
+    sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
     sys.exit(main())
