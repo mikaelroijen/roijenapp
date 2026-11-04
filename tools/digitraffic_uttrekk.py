@@ -18,11 +18,13 @@ SONE = "Europe/Helsinki"
 KILDE = "Source: Fintraffic / digitraffic.fi, license CC 4.0 BY"
 LISENS = "CC BY 4.0 – https://creativecommons.org/licenses/by/4.0/"
 
-# Foreløpig utvalg (4. nov 2026) – avgjøres av Chat A etter oversikten i jobbens logg.
+# Utvalg (Chat A, beskjed-nettside-trafikkmeldinger-utvalg-2026-11-04).
 # Begrensningstyper i vegarbeidsfaser (v2 skriver dem med små bokstaver og mellomrom).
 STENGT = {"road closed", "intermittent short term closure", "intermittent short term closures"}
 VEGARBEID = {"traffic lights", "single alternate line traffic", "intermittent short term stops",
-             "traffic being manually directed", "manual traffic control"}
+             "intermittent stops and closure effective", "estimated delay", "estimated delay during rush hour"}
+# Ulykker (Mikael 4. nov): trafikkmeldinger av disse typene → kategori «ulykke».
+ULYKKE = {"accident report", "preliminary accident report"}
 # Trafikkmeldinger (ikke vegarbeid): «Tie on suljettu liikenteeltä» = vegen er stengt for trafikk.
 STENGT_TEKST = ("suljettu liikenteeltä",)
 
@@ -153,12 +155,15 @@ def plukk_ut(data, naa=None):
                 }))
     for f in data.get("traffic-announcements", []):
         p = f.get("properties") or {}
-        if _norm(p.get("trafficAnnouncementType")) != "general":
-            continue                       # ulykker o.l. tas ikke med nå
+        meldingstype = _norm(p.get("trafficAnnouncementType"))
+        if meldingstype not in ULYKKE and meldingstype != "general":
+            continue
         punkt, linjer = _geometri(f)
         for a in (p.get("announcements") or [])[:1]:
             navn = [(e.get("name") or "") for e in a.get("features") or []]
             treff = next((n for n in navn if any(s in n.lower() for s in STENGT_TEKST)), None)
+            if meldingstype in ULYKKE:
+                treff = meldingstype
             if not treff:
                 continue
             td = a.get("timeAndDuration") or {}
@@ -172,11 +177,11 @@ def plukk_ut(data, naa=None):
                 "situasjon": p.get("situationId"),
                 "land": "FI",
                 "tidssone": SONE,
-                "kategori": "stengt",
+                "kategori": "ulykke" if meldingstype in ULYKKE else "stengt",
                 "type": treff,
                 "tekst": tekst,
                 **_sted(a),
-                "start": iso_lokal(td.get("startTime"), SONE),
+                "start": iso_lokal(td.get("startTime") or p.get("releaseTime"), SONE),
                 "slutt": slutt,
                 "punkt": punkt,
                 "linjer": linjer,

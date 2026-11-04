@@ -1,10 +1,10 @@
 # Bygger og publiserer roijenapp.no på GitHub Pages, med trafikkmeldinger fra
 # Statens vegvesen (DATEX), Trafikverket og Fintraffic/Digitraffic som data/trafikkmeldinger.json.
-# Prøveperiode (4. nov 2026): hovedfila har bare Norge; alle tre land står i
-# data/trafikkmeldinger-norden-test.json til Chat A har avgjort utvalget.
+# Hovedfila har Norge, Sverige og Finland. Ulykker (kategori «ulykke») står foreløpig bare i
+# prøvefila data/trafikkmeldinger-norden-test.json, til Chat A sier fra (eldre apper tåler dem ikke).
 #
 # - Ved push til main og når jobben startes for hånd: hele nettsiden publiseres.
-# - Hvert 20. minutt: trafikkmeldingene hentes; nettsiden publiseres bare når
+# - Hvert 10. minutt (minutt 3, 13, …, for å unngå toppen av timen): trafikkmeldingene hentes; nettsiden publiseres bare når
 #   meldingene er endret. Ingen commit per oppdatering.
 #
 # Hemmeligheter (Settings → Secrets and variables → Actions), legges inn av Mikael:
@@ -17,7 +17,7 @@ on:
   push:
     branches: [main]
   schedule:
-    - cron: "*/20 * * * *"
+    - cron: "3-59/10 * * * *"
   workflow_dispatch:
 
 permissions:
@@ -53,7 +53,7 @@ jobs:
         run: |
           set +e
           python3 tools/datex_uttrekk.py --forrige forrige.json --ut data/trafikkmeldinger.json \
-            --land NO --test-ut data/trafikkmeldinger-norden-test.json --github-output
+            --land NO,SE,FI --test-ut data/trafikkmeldinger-norden-test.json --github-output
           kode=$?
           echo "kode=$kode" >> "$GITHUB_OUTPUT"
           if [ "$kode" = "2" ]; then echo "::warning::Henting av norske trafikkmeldinger feilet – forrige norske meldinger beholdes."; fi

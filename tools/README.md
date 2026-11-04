@@ -2,7 +2,7 @@
 
 `datex_uttrekk.py` henter trafikkmeldinger (DATEX II v3.1, `GetSituation/pullsnapshotdata`), plukker ut
 stengte veger og vegarbeid med ventetid, og skriver `data/trafikkmeldinger.json`. Jobben
-`.github/workflows/nettside.yml` kjører det hvert 20. minutt og publiserer fila på
+`.github/workflows/nettside.yml` kjører det hvert 10. minutt og publiserer fila på
 https://roijenapp.no/data/trafikkmeldinger.json. Mappen `tools/` publiseres ikke.
 
 Brukernavn og passord ligger **bare** som GitHub-hemmelighetene `DATEX_USER` og `DATEX_PASSWORD`,
@@ -18,9 +18,20 @@ Feiler ett land, brukes forrige meldinger fra det landet, og de andre landene pu
 Jobben skriver antall meldinger per land og en oversikt over Trafikverkets og Digitraffics
 meldingstyper og koder i loggen (aldri nøkkelen).
 
-**Prøveperiode (fra 4. nov 2026):** `data/trafikkmeldinger.json` har bare Norge (`--land NO`). Alle tre land
-står i https://roijenapp.no/data/trafikkmeldinger-norden-test.json. Utvalget for Sverige og Finland er
-foreløpig og avgjøres av Chat A; deretter settes `--land NO,SE,FI` i jobben.
+**Hovedfila** `data/trafikkmeldinger.json` har Norge, Sverige og Finland (`--land NO,SE,FI`, fra 4. nov 2026).
+**Ulykker** (kategori `ulykke`) står foreløpig bare i prøvefila
+https://roijenapp.no/data/trafikkmeldinger-norden-test.json, til Chat A sier fra; da legges
+`--ulykker-i-hovedfil` til i jobben.
+
+Utvalg (Chat A 4. nov 2026: det som stopper eller forsinker deg, pluss ulykker):
+- **NO:** `roadClosed`, `intermittentShortTermClosures`, `closedPermanentlyForTheWinter` → `stengt`;
+  `temporaryTrafficLights`, `trafficBeingManuallyDirected`, `blastingWork` → `vegarbeid`; `Accident` (`accidentType`) → `ulykke`.
+- **SE:** `roadClosed` → `stengt`; `blastingWork` → `vegarbeid`; `roadworks`/`resurfacingWork` → `vegarbeid` når `Message`/`Header`
+  nevner trafikljus, signal, lots, flaggvakt, växelvis eller väntetid (`undertype` = første ord som traff); MessageType `Olycka` → `ulykke`.
+- **FI:** vegarbeidsfaser med `road closed`/`intermittent short term closure` → `stengt`; `traffic lights`, `single alternate line traffic`,
+  `intermittent short term stops`, `intermittent stops and closure effective`, `estimated delay`, `estimated delay during rush hour` → `vegarbeid`;
+  trafikkmeldinger (`general`) med «Tie on suljettu liikenteeltä» → `stengt`; `accident report`/`preliminary accident report` → `ulykke`.
+- Ikke med: motorstopp, dyr i vegen, felt stengt, fartsgrenser, vekt, tele, ferjer.
 
 ## Kjøre lokalt (test)
 
@@ -45,14 +56,15 @@ Per melding (felt uten verdi er utelatt):
 | `tidssone` | IANA-sone for klokkeslettene i `gjentatt`/`arbeidstid`: `Europe/Oslo`, `Europe/Stockholm`, `Europe/Helsinki` |
 | `id`, `versjon` | situationRecord-id og versjon (SE: Deviation.Id; FI: id for vegarbeidsfasen eller situationId) |
 | `situasjon` | id for situasjonen meldingen hører til |
-| `kategori` | `stengt` eller `vegarbeid` |
+| `kategori` | `stengt`, `vegarbeid` eller `ulykke` (bare i prøvefila foreløpig) |
 | `type` | Kildens egen verdi. SE: `MessageCodeValue`. FI: begrensningstypen (`traffic lights`, `single alternate line traffic` …) eller, for stengte veger i trafikkmeldinger, egenskapen (`Tie on suljettu liikenteeltä`). NO: DATEX-verdien: `roadClosed`, `intermittentShortTermClosures`, `closedPermanentlyForTheWinter`, `temporaryTrafficLights`, `trafficBeingManuallyDirected`, `blastingWork` |
 | `tekst` | `generalPublicComment`, ferdig tekst til brukeren |
 | `sted`, `veg`, `vegnavn` | stedstekst, vegnummer (f.eks. `F862`, `E10`), vegnavn |
-| `start`, `slutt` | ISO-tid; mangler `slutt` = til videre |
+| `start`, `slutt` | ISO-tid; mangler `slutt` = til videre. Ulykke uten starttid: tidspunktet meldingen ble laget (NO `situationRecordCreationTime`, SE `CreationTime`, FI `releaseTime`) |
 | `gjentatt` | liste over gyldighetsperioder: `fra`, `til` (ISO), `tider` (`[{"fra":"07:00","til":"15:00"}]`, norsk lokaltid), `dager` (`monday` … `sunday`) |
 | `retning` | NO: DATEX (alertCAffectedDirection). SE: `BothDirections`/`OneDirection` (sier ikke hvilken). FI: `BOTH`/`both`/`pos`/`neg` |
 | `overskrift` | SE: Trafikverkets `Header` |
+| `undertype` | SE: ordet i teksten som gjorde vegarbeidet med (f.eks. `trafikljus`) |
 | `arbeidstid` | FI: arbeidstider fra vegarbeidsfasen (`tider`, `dager`), lokal tid. Ikke det samme som når begrensningen gjelder |
 | `lengde_m` | berørt lengde |
 | `punkt` | `[bredde, lengde]` |

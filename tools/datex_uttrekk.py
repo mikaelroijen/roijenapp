@@ -218,10 +218,17 @@ def _melding(el, situasjon_id, naa):
             kategori, typ = verdier[v], v
             break
     if not kategori:
+        # Ulykker (4. nov 2026, Mikael): situationRecord av typen Accident, type = accidentType.
+        v = tekst(el, f"{SIT}accidentType")
+        if v:
+            kategori, typ = "ulykke", v
+    if not kategori:
         return None
 
     gyldig = el.find(f"{SIT}validity/{COM}validityTimeSpecification")
     start = tekst(gyldig, f"{COM}overallStartTime") if gyldig is not None else None
+    if not start and kategori == "ulykke":       # når ulykken ble meldt
+        start = tekst(el, f"{SIT}situationRecordCreationTime")
     slutt = tekst(gyldig, f"{COM}overallEndTime") if gyldig is not None else None
     if slutt and tid(slutt) and tid(slutt) < naa:
         return None                                # utløpt
@@ -384,6 +391,8 @@ def main():
     ap.add_argument("--fra-fil", help="les DATEX-XML (Norge) fra fil i stedet for å hente")
     ap.add_argument("--land", default="NO,SE,FI", help="land i hovedfila, f.eks. NO eller NO,SE,FI")
     ap.add_argument("--test-ut", help="skriv i tillegg alle land til denne fila (prøvefil)")
+    ap.add_argument("--ulykker-i-hovedfil", action="store_true",
+                    help="ta med kategori «ulykke» i hovedfila (ellers bare i prøvefila)")
     ap.add_argument("--github-output", action="store_true")
     a = ap.parse_args()
     i_hovedfil = [x.strip().upper() for x in a.land.split(",") if x.strip()]
@@ -454,15 +463,19 @@ def main():
             typer[m["type"]] = typer.get(m["type"], 0) + 1
         print(f"{land}: {len(ml)} meldinger ({status[land]}): "
               + ", ".join(f"{k} {v}" for k, v in sorted(typer.items())))
-        if land != "NO":                       # eksempler til loggen (åpne data), ett per type
+        uten_start = sum(1 for m in ml if m["kategori"] == "ulykke" and not m.get("start"))
+        if uten_start:
+            print(f"  {land}: {uten_start} ulykker uten start")
+        if True:                               # eksempler til loggen (åpne data), ett per type
             sett = set()
             for m in ml:
-                if m["type"] not in sett:
+                if m["type"] not in sett and (land != "NO" or m["kategori"] == "ulykke"):
                     sett.add(m["type"])
                     print(f"  eksempel {land}: " + json.dumps(m, ensure_ascii=False)[:1500])
 
-    def fil(land_liste):
-        meldinger = [m for land in land_liste for m in per_land.get(land, [])]
+    def fil(land_liste, ulykker=True):
+        meldinger = [m for land in land_liste for m in per_land.get(land, [])
+                     if ulykker or m["kategori"] != "ulykke"]
         meldinger.sort(key=lambda m: (land_av(m), m["kategori"], m.get("veg") or "", m["id"]))
         return {
             "versjon": FORMAT_VERSJON,
@@ -479,7 +492,7 @@ def main():
         }
 
     endret = False
-    data = fil(i_hovedfil)
+    data = fil(i_hovedfil, ulykker=a.ulykker_i_hovedfil)
     if forrige and forrige.get("meldinger") == data["meldinger"]:
         print(f"Hovedfila: samme {data['antall']} meldinger som før.")
         behold_forrige(a, "samme innhold")

@@ -18,12 +18,34 @@ SONE = "Europe/Stockholm"
 KILDE = "Trafikverket – öppna API för trafikinformation (Situation)"
 LISENS = "CC0 1.0 – https://creativecommons.org/publicdomain/zero/1.0/"
 
-# Foreløpig utvalg (4. nov 2026) – avgjøres av Chat A etter oversikten i jobbens logg.
-# Nøkkel: MessageCodeValue (Trafikverkets maskinlesbare kode).
-STENGT = {"roadClosed", "intermittentShortTermClosures", "closedPermanentlyForTheWinter",
-          "carriagewayClosures"}
-VEGARBEID = {"temporaryTrafficLights", "trafficBeingManuallyDirected", "singleAlternateLineTraffic",
-             "blastingWork", "trafficControlled", "alternatingTraffic"}
+# Utvalg (Chat A, beskjed-nettside-trafikkmeldinger-utvalg-2026-11-04). Nøkkel: MessageCodeValue.
+STENGT = {"roadClosed"}
+VEGARBEID = {"blastingWork"}
+
+
+# Vegarbeid som stopper eller forsinker (Chat A 4. nov): roadworks/resurfacingWork når Message
+# eller Header nevner et av ordene. «lots» dekker også «lotsbil».
+VEGARBEID_TEKST_KODER = {"roadworks", "resurfacingWork"}
+VEGARBEID_ORD = ("trafikljus", "signal", "lots", "flaggvakt", "växelvis", "väntetid")
+# Ulykker (Mikael 4. nov): MessageType «Olycka», type = MessageCodeValue.
+ULYKKE_TYPE = "Olycka"
+
+
+def _kategori(d):
+    """(kategori, undertype) eller (None, None)."""
+    kode = d.get("MessageCodeValue")
+    if kode in STENGT:
+        return "stengt", None
+    if kode in VEGARBEID:
+        return "vegarbeid", None
+    if d.get("MessageType") == ULYKKE_TYPE:
+        return "ulykke", None
+    if kode in VEGARBEID_TEKST_KODER:
+        tekst_ = f"{d.get('Message') or ''} {d.get('Header') or ''}".lower()
+        ord_ = min(((tekst_.find(o), o) for o in VEGARBEID_ORD if o in tekst_), default=None)
+        if ord_:
+            return "vegarbeid", ord_[1]
+    return None, None
 
 
 class Feil(Exception):
@@ -100,7 +122,7 @@ def oversikt(situasjoner):
     utvalgt = Counter()
     for _, d in _avvik(situasjoner):
         k = d.get("MessageCodeValue")
-        if k in STENGT or k in VEGARBEID:
+        if _kategori(d)[0]:
             utvalgt[(k, "pause" if d.get("Suspended") else "aktiv",
                      "utløpt" if utløpt(iso_lokal(d.get("EndTime"), SONE)) and not d.get("ValidUntilFurtherNotice") else "")] += 1
     ut.append("Sverige – utvalgte koder etter Suspended/utløpt: antall")
@@ -114,10 +136,10 @@ def plukk_ut(situasjoner, naa=None):
     meldinger = []
     for s, d in _avvik(situasjoner):
         kode = d.get("MessageCodeValue")
-        kategori = "stengt" if kode in STENGT else "vegarbeid" if kode in VEGARBEID else None
+        kategori, undertype = _kategori(d)
         if not kategori or d.get("Suspended"):
             continue
-        start = iso_lokal(d.get("StartTime"), SONE)
+        start = iso_lokal(d.get("StartTime") or (d.get("CreationTime") if kategori == "ulykke" else None), SONE)
         slutt = None if d.get("ValidUntilFurtherNotice") else iso_lokal(d.get("EndTime"), SONE)
         if utløpt(slutt, naa):
             continue
@@ -152,6 +174,7 @@ def plukk_ut(situasjoner, naa=None):
             "tidssone": SONE,
             "kategori": kategori,
             "type": kode,
+            "undertype": undertype,
             "tekst": d.get("Message") or d.get("Header"),
             "overskrift": d.get("Header"),
             "sted": d.get("LocationDescriptor") or d.get("PositionalDescription"),
