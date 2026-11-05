@@ -55,7 +55,7 @@ def norge():
         return
     base = "https://datex-server-get-v3-1.atlas.vegvesen.no/datexapi/"
     for tjeneste, tagg in (("GetPredefinedTravelTimeLocations", "predefinedLocation"),
-                           ("GetTravelTimeData", "elaboratedData")):
+                           ("GetTravelTimeData", "physicalQuantity")):
         try:
             rå = hent(base + tjeneste + "/pullsnapshotdata", auth=(bruker, passord))
         except urllib.error.HTTPError as f:
@@ -72,6 +72,28 @@ def norge():
             print(f"  GetTravelTimeData: felt om tid/forsinkelse: {felt.most_common(30)}")
             tider = Counter((e.text or "")[:16] for e in rot.iter() if lokal(e.tag) in ("measurementOrCalculationTime", "publicationTime"))
             print(f"  GetTravelTimeData: målt/publisert (til minutt): {tider.most_common(8)}")
+            status = Counter((e.text or "") for e in rot.iter() if lokal(e.tag) == "trafficStatusValue")
+            print(f"  GetTravelTimeData: trafficStatusValue: {status.most_common()}")
+            print(f"  GetTravelTimeData: travelTimeType: {Counter(e.text for e in rot.iter() if lokal(e.tag) == 'travelTimeType').most_common()}")
+            print(f"  GetTravelTimeData: travelTimeTrendType: {Counter(e.text for e in rot.iter() if lokal(e.tag) == 'travelTimeTrendType').most_common()}")
+            # Forhold reisetid / fri flyt per strekning
+            per = {}
+            for pq in rot.iter():
+                if lokal(pq.tag) != "physicalQuantity":
+                    continue
+                ref = next((e.attrib.get("id") for e in pq.iter() if lokal(e.tag) == "predefinedLocationReference"), None)
+                for e in pq.iter():
+                    if lokal(e.tag) in ("travelTime", "freeFlowTravelTime"):
+                        d = next((x.text for x in e.iter() if lokal(x.tag) == "duration"), None)
+                        if d:
+                            per.setdefault(ref, {})[lokal(e.tag)] = float(d)
+                    if lokal(e.tag) == "measurementOrCalculationTime" or lokal(e.tag) == "startOfPeriod":
+                        per.setdefault(ref, {}).setdefault("tid", e.text)
+            kø = sorted(((round(v["travelTime"] / v["freeFlowTravelTime"], 1), round(v["travelTime"] - v["freeFlowTravelTime"]), r)
+                         for r, v in per.items() if v.get("travelTime") and v.get("freeFlowTravelTime")), reverse=True)
+            print(f"  GetTravelTimeData: {len(per)} strekninger, {len(kø)} med reisetid nå; ≥ 1,5 × fri flyt: "
+                  f"{sum(k[0] >= 1.5 for k in kø)}; de verste: {kø[:10]}")
+            print(f"  GetTravelTimeData: tider: {Counter((v.get('tid') or '')[:16] for v in per.values()).most_common(6)}")
             forsinkelser = []
             for e in rot.iter():
                 if re.search(r"delay", lokal(e.tag), re.I):
@@ -115,7 +137,8 @@ def sverige():
         if objekt == "TravelTimeRoute":
             print(f"  status: {Counter(r.get('TrafficStatus') for r in rader).most_common()}")
             print(f"  eier (RouteOwner): {Counter(r.get('RouteOwner') for r in rader).most_common()}")
-            print(f"  län: {Counter(c for r in rader for c in (r.get('Counties') or [])).most_common()}")
+            print(f"  län: {Counter(c for r in rader for c in (r.get('CountyNo') or [])).most_common()}")
+            print(f"  lengde km totalt: {sum(r.get('Length') or 0 for r in rader)/1000:.0f}; navn (utvalg): {[r.get('Name') for r in rader[::20]]}")
             print(f"  målt (til minutt): {Counter((r.get('MeasureTime') or '')[:16] for r in rader).most_common(6)}")
             kø = []
             for r in rader:
