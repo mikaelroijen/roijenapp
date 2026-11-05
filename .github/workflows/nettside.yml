@@ -92,8 +92,18 @@ jobs:
     runs-on: ubuntu-latest
     environment:
       name: github-pages
-      url: ${{ steps.utrulling.outputs.page_url }}
+      url: ${{ steps.utrulling.outputs.page_url || steps.utrulling2.outputs.page_url }}
     steps:
+      # Pages avviser en ny utrulling mens en forrige fortsatt står «in progress» (5. nov 2026).
+      # Da venter vi to minutter og prøver én gang til.
       - name: Publiser på GitHub Pages
         id: utrulling
+        continue-on-error: true
+        uses: actions/deploy-pages@368f82528645a54fb793d4d04e342629a3f51346 # v5.0.1
+      - name: Vent før nytt forsøk
+        if: steps.utrulling.outcome == 'failure'
+        run: sleep 120
+      - name: Publiser på nytt
+        id: utrulling2
+        if: steps.utrulling.outcome == 'failure'
         uses: actions/deploy-pages@368f82528645a54fb793d4d04e342629a3f51346 # v5.0.1
