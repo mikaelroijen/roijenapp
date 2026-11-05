@@ -1,0 +1,24 @@
+# Engangs-kartlegging (5. nov 2026): åpne fartsdata/reisetider i NO, SE og FI.
+# Kjøres bare for hånd. Skriver en oppsummering i loggen og publiserer ingenting.
+name: Kartlegg trafikkflyt
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  kartlegg:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - name: Kartlegg
+        env:
+          DATEX_USER: ${{ secrets.DATEX_USER }}
+          DATEX_PASSWORD: ${{ secrets.DATEX_PASSWORD }}
+          TRAFIKVERKET_NOKKEL: ${{ secrets.TRAFIKVERKET_NOKKEL }}
+        run: python3 tools/kartlegg_trafikkflyt.py
