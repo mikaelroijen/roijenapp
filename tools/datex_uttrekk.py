@@ -393,6 +393,7 @@ def main():
     ap.add_argument("--test-ut", help="skriv i tillegg alle land til denne fila (prøvefil)")
     ap.add_argument("--ulykker-i-hovedfil", action="store_true",
                     help="ta med kategori «ulykke» i hovedfila (ellers bare i prøvefila)")
+    ap.add_argument("--flyt-ut", help="skriv kø-fila (trafikkflyt.json) hit")
     ap.add_argument("--github-output", action="store_true")
     a = ap.parse_args()
     i_hovedfil = [x.strip().upper() for x in a.land.split(",") if x.strip()]
@@ -506,6 +507,25 @@ def main():
         rå, komprimert = skriv_ut(a.test_ut, prøve)
         print(f"Prøvefila (NO,SE,FI): {prøve['antall']} meldinger, {rå/1024:.0f} kB ({komprimert/1024:.0f} kB med gzip)")
         endret = True
+    if a.flyt_ut and not a.fra_fil:
+        try:
+            import trafikkflyt_uttrekk as tf
+            flyt, logg = tf.lag(naa, [m for ml in per_land.values() for m in ml])
+            for linje in logg:
+                print(linje)
+            rå, komprimert = skriv_ut(a.flyt_ut, flyt)
+            print(f"Trafikkflyt: {flyt['antall']} poster ("
+                  + ", ".join(f"{k['land']} {k['antall']} {k['status']}" for k in flyt["kilder"])
+                  + f"), {rå/1024:.0f} kB ({komprimert/1024:.0f} kB med gzip)")
+            for p in flyt["ko"][:3]:
+                print("  eksempel: " + json.dumps(p, ensure_ascii=False)[:900])
+            gammel = [p for p in flyt["ko"] if p.get("malt")]
+            if gammel:
+                eldst = min(datetime.fromisoformat(p["malt"]) for p in gammel)
+                print(f"Trafikkflyt: eldste måling {(naa - eldst).total_seconds()/60:.1f} min gammel da fila ble laget")
+            endret = True
+        except Exception as feil:               # kø-fila skal aldri stoppe trafikkmeldingene
+            print(f"Trafikkflyt: feil: {type(feil).__name__}: {str(feil)[:160]}")
     if a.github_output:
         github_output(endret)
     if norge_feilet:
