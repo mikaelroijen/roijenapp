@@ -74,3 +74,25 @@ Per melding (felt uten verdi er utelatt):
 Meldinger med `slutt` i fortiden tas ikke med. SE: `Suspended` (satt på pause) og slettede situasjoner tas ikke med;
 `ValidUntilFurtherNotice` gir ingen `slutt`. Alle `start`/`slutt` har UTC-forskyvning; svenske tider uten forskyvning
 regnes som svensk lokaltid.
+
+## Kø-fila `data/trafikkflyt.json` (fra 5. nov 2026)
+
+Lages i samme kjøring av `tools/trafikkflyt_uttrekk.py` (kalt fra `datex_uttrekk.py --flyt-ut`). Feiler den,
+publiseres trafikkmeldingene likevel.
+
+| Land | Kilde | Lisens |
+|---|---|---|
+| NO | Statens vegvesen, DATEX 3.1 `GetTravelTimeData` + `GetPredefinedTravelTimeLocations` (linjer i EPSG:32633, UTM 33N/WGS84) | NLOD 2.0 |
+| SE | Trafikverket `TravelTimeRoute` 1.5 (sekunder, meter, km/t; nesten bare Stockholm) | CC0 1.0 |
+| FI | Digitraffic TMS: `stations/data` (`KESKINOPEUS_5MIN_LIUKUVA_SUUNTA{1,2}_VVAPAAS{1,2}` = prosent av fri flyt), `stations`, `stations/sensor-constants` (`VVAPAAS1/2`, sommer/vinter) | CC BY 4.0 |
+
+Toppnivå: `versjon` (1), `hentet`, `grense` (0,7), `kilder[]` (`land`, `kilde`, `lisens`, `antall`, `status` ok/feil), `antall`, `ko[]`.
+
+Per post: `id` (`NO-<strekning>`, `SE-<Id>`, `FI-<stasjon>-<retning>`), `land`, `navn`, `veg` (SE når navnet har det),
+`malt`, `status` (kildens verdi; FI har ingen), `forhold` (fart nå / normal; strekninger: normal tid / tid nå), `alvorlig`
+(true når < 0,5), `fart`, `fart_normal` (km/t). NO/SE: `reisetid_s`, `normal_s`, `forsinkelse_s`, `lengde_m`, `linjer`.
+FI: `punkt`, `retning` (`1`/`2`), `peiling` (fra `Tien_suunta`; retning 2 = +180°, ikke kontrollert).
+
+Utvalg: `forhold` < 0,7. Ikke med: uten måling (`unknown`), måling eldre enn 15 min, FI-stasjoner som ikke har
+`collectionStatus` GATHERING. Målefeil: `forhold` < 0,05 tas bort; NO-strekninger med forsinkelse over 1 time tas bort
+hvis ingen trafikkmelding ligger innenfor 1 km. Regelen og det som tas bort, skrives i loggen.
