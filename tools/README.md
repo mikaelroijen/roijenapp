@@ -19,9 +19,8 @@ Jobben skriver antall meldinger per land og en oversikt over Trafikverkets og Di
 meldingstyper og koder i loggen (aldri nøkkelen).
 
 **Hovedfila** `data/trafikkmeldinger.json` har Norge, Sverige og Finland (`--land NO,SE,FI`, fra 4. nov 2026).
-**Ulykker** (kategori `ulykke`) står foreløpig bare i prøvefila
-https://roijenapp.no/data/trafikkmeldinger-norden-test.json, til Chat A sier fra; da legges
-`--ulykker-i-hovedfil` til i jobben.
+**Ulykker** (kategori `ulykke`) er med i hovedfila fra 6. nov 2026 (`--ulykker-i-hovedfil`).
+Prøvefila https://roijenapp.no/data/trafikkmeldinger-norden-test.json lages fortsatt en stund.
 
 Utvalg (Chat A 4. nov 2026: det som stopper eller forsinker deg, pluss ulykker):
 - **NO:** `roadClosed`, `intermittentShortTermClosures`, `closedPermanentlyForTheWinter` → `stengt`;
@@ -56,7 +55,7 @@ Per melding (felt uten verdi er utelatt):
 | `tidssone` | IANA-sone for klokkeslettene i `gjentatt`/`arbeidstid`: `Europe/Oslo`, `Europe/Stockholm`, `Europe/Helsinki` |
 | `id`, `versjon` | situationRecord-id og versjon (SE: Deviation.Id; FI: id for vegarbeidsfasen eller situationId) |
 | `situasjon` | id for situasjonen meldingen hører til |
-| `kategori` | `stengt`, `vegarbeid` eller `ulykke` (bare i prøvefila foreløpig) |
+| `kategori` | `stengt`, `vegarbeid` eller `ulykke` |
 | `type` | Kildens egen verdi. SE: `MessageCodeValue`. FI: begrensningstypen (`traffic lights`, `single alternate line traffic` …) eller, for stengte veger i trafikkmeldinger, egenskapen (`Tie on suljettu liikenteeltä`). NO: DATEX-verdien: `roadClosed`, `intermittentShortTermClosures`, `closedPermanentlyForTheWinter`, `temporaryTrafficLights`, `trafficBeingManuallyDirected`, `blastingWork` |
 | `tekst` | `generalPublicComment`, ferdig tekst til brukeren |
 | `sted`, `veg`, `vegnavn` | stedstekst, vegnummer (f.eks. `F862`, `E10`), vegnavn |
