@@ -26,7 +26,8 @@ VEGARBEID = {"traffic lights", "single alternate line traffic", "intermittent sh
 # Ulykker (Mikael 4. nov): trafikkmeldinger av disse typene → kategori «ulykke».
 ULYKKE = {"accident report", "preliminary accident report"}
 # Trafikkmeldinger (ikke vegarbeid): «Tie on suljettu liikenteeltä» = vegen er stengt for trafikk.
-STENGT_TEKST = ("suljettu liikenteeltä",)
+# Bare hele vegen: «Ajokaista suljettu liikenteeltä» (ett felt stengt) skal ikke med (rettet 6. nov 2026).
+STENGT_TEKST = ("tie on suljettu liikenteeltä",)
 
 
 class Feil(Exception):
@@ -161,7 +162,7 @@ def plukk_ut(data, naa=None):
         punkt, linjer = _geometri(f)
         for a in (p.get("announcements") or [])[:1]:
             navn = [(e.get("name") or "") for e in a.get("features") or []]
-            treff = next((n for n in navn if any(s in n.lower() for s in STENGT_TEKST)), None)
+            treff = next((n for n in navn if any(n.strip().lower().startswith(s) for s in STENGT_TEKST)), None)
             if meldingstype in ULYKKE:
                 treff = meldingstype
             if not treff:
