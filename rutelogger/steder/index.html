@@ -15,13 +15,13 @@
 
     <header>
       <h1>Steder langs ruten – datasett</h1>
-      <p class="ingress">Datasettet bak «Søk langs ruten» og «nærmeste bensinstasjon» i RuteLogger: 93 505 steder i Norge, Sverige, Finland, Danmark og Island, hentet fra OpenStreetMap.</p>
+      <p class="ingress">Datasettet bak «Søk langs ruten», «nærmeste bensinstasjon» og kartlagene for camping, bobilplasser og utsiktspunkter i RuteLogger: 99 688 steder i Norge, Sverige, Finland, Danmark og Island, hentet fra OpenStreetMap.</p>
     </header>
 
     <section class="del">
       <h2>Last ned</h2>
       <ul>
-        <li><a href="steder.json" download>steder.json</a> – hele datasettet (JSON, ca. 3,7 MB)</li>
+        <li><a href="steder.json" download>steder.json</a> – hele datasettet (JSON, ca. 4,0 MB)</li>
         <li><a href="README.md">README.md</a> – format, kilde, tall per land og metode</li>
         <li><a href="LICENSE.txt">LICENSE.txt</a> – lisensteksten</li>
         <li><a href="metode/steder_til_app.py">metode/steder_til_app.py</a> – skriptet som lager datasettet</li>
@@ -36,7 +36,20 @@
 
     <section class="del">
       <h2>Innhold, kilde og metode</h2>
-      <p>Bensinstasjoner, ladestasjoner, kafeer, restauranter og gatekjøkken, overnatting (hotell, motell, gjestehus, vandrerhjem og camping) og rasteplasser. Kildedata er OpenStreetMap-filene for de fem landene fra Geofabrik. Datasettet ble laget 25. oktober 2026 og er det samme som ligger i appen.</p>
+      <p>Bensinstasjoner, ladestasjoner, kafeer, restauranter og gatekjøkken, overnatting (hotell, motell, gjestehus og vandrerhjem), rasteplasser, campingplasser, bobilplasser og utsiktspunkter. Kildedata er OpenStreetMap-filene for de fem landene fra Geofabrik (23. oktober 2026). Dette er versjon 2, laget 7. november 2026, og den er den samme som ligger i appen.</p>
+      <div class="tabell">
+        <table>
+          <thead><tr><th>Land</th><th>Camping</th><th>Bobil</th><th>Utsikt</th><th>Alle steder</th></tr></thead>
+          <tbody>
+            <tr><td>Norge</td><td>1 323</td><td>373</td><td>1 684</td><td>19 897</td></tr>
+            <tr><td>Sverige</td><td>1 190</td><td>625</td><td>1 450</td><td>33 869</td></tr>
+            <tr><td>Finland</td><td>452</td><td>230</td><td>895</td><td>18 966</td></tr>
+            <tr><td>Danmark</td><td>1 526</td><td>325</td><td>840</td><td>23 582</td></tr>
+            <tr><td>Island</td><td>233</td><td>11</td><td>447</td><td>3 374</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p>Campingplasser, bobilplasser og utsiktspunkter tas bare med når de ligger nær en veg du kan kjøre på med motorsykkel: innenfor 500 m fra midten av plassen for camping og bobil, og innenfor 200 m for utsiktspunkter. Alle bilveger regnes med, også små grendeveger og serviceveger. Skogsbilveger regnes bare med når motorkjøretøy er tillatt der. Derfor er for eksempel teltplasser på øyer og koier i skogen ikke med.</p>
       <p>Steder som er merket private, tas ikke med, og heller ikke bensinanlegg for båt. I appen brukes rasteplassene fra datasettet utenfor Norge. I Norge kommer rasteplassene fra Statens vegvesen. Detaljene står i README-fila.</p>
     </section>
 
