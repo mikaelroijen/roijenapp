@@ -24,7 +24,38 @@
       <a href="/rutelogger/kreditering/" aria-current="page">Datakilder og lisenser</a>
     </nav>
 
-    <section class="del">
+    <section class="del" id="oversikt">
+      <h2>Oversikt: kilder og lisenser</h2>
+      <p>Målet er at alle data og biblioteker i RuteLogger har åpne lisenser som tillater bruk i appen. Tabellen viser hver kilde, lisensen, hva lisensen krever og om noe ikke er avklart. Detaljene står lenger ned på siden. Sist kontrollert 8. november 2026.</p>
+      <div class="tabell">
+        <table>
+          <thead><tr><th>Kilde</th><th>Brukes til</th><th>Lisens</th><th>Krav</th><th>Her på siden</th><th>Status</th></tr></thead>
+          <tbody>
+            <tr><td>Apple Maps (MapKit)</td><td>Kart, adressesøk og ruter</td><td>Apples utvikleravtale</td><td>Apples logo og «Juridisk» synlig i kartet; Apple-data lagres ikke</td><td><a href="#apple">Apple</a></td><td>OK</td></tr>
+            <tr><td>Apple iCloud og CloudKit</td><td>Synk og deling</td><td>Apples utvikleravtale</td><td>Ingen kreditering</td><td>–</td><td>OK</td></tr>
+            <tr><td>Statens vegvesen – NVDB</td><td>Fartsgrenser, skilt, vegnummer, vegforhold, rasteplasser</td><td><a href="https://data.norge.no/nlod/no/2.0">NLOD 2.0</a></td><td>Navngivelse</td><td><a href="#vegdata">Vegdata</a></td><td>OK</td></tr>
+            <tr><td>Statens vegvesen – DATEX</td><td>Stengte veger, vegarbeid, ulykker, reisetider (kø)</td><td><a href="https://data.norge.no/nlod/no/2.0">NLOD 2.0</a></td><td>Navngivelse</td><td><a href="#trafikkmeldinger">Trafikkmeldinger</a>, <a href="#ko">Kø</a></td><td>OK</td></tr>
+            <tr><td>Trafikverket</td><td>Trafikkmeldinger og reisetider i Sverige</td><td><a href="https://creativecommons.org/publicdomain/zero/1.0/">CC0 1.0</a></td><td>Ingen krav (kreditert likevel)</td><td><a href="#trafikkmeldinger-sverige-finland">Sverige og Finland</a>, <a href="#ko">Kø</a></td><td>OK</td></tr>
+            <tr><td>Fintraffic / Digitraffic</td><td>Trafikkmeldinger og fart i Finland</td><td><a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a></td><td>Kreditering, lenke til lisensen, merknad om endring</td><td><a href="#trafikkmeldinger-sverige-finland">Sverige og Finland</a>, <a href="#ko">Kø</a></td><td>OK</td></tr>
+            <tr><td>Väylävirasto</td><td>Finske turistveger (matkailutiet)</td><td><a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a></td><td>Kreditering, lenke til lisensen, merknad om endring</td><td><a href="#turistveger">Turistveger</a></td><td>OK</td></tr>
+            <tr><td>Kartverket</td><td>Høyde langs ruten (Mac)</td><td><a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a></td><td>Kreditering</td><td><a href="#hoyde">Høyde</a></td><td>OK</td></tr>
+            <tr><td>MET Norway</td><td>Vær langs ruten</td><td>NLOD 2.0 / CC BY 4.0</td><td>Kreditering; appnavn og kontakt i hver forespørsel</td><td><a href="#vaer">Vær</a></td><td>OK</td></tr>
+            <tr><td>Riksantikvaren</td><td>Kulturminner</td><td><a href="https://data.norge.no/nlod/no/2.0">NLOD 2.0</a></td><td>Navngivelse</td><td><a href="#kulturminner">Kulturminner</a></td><td>OK</td></tr>
+            <tr><td>OpenStreetMap – svingete veier</td><td>Kartlaget «Svingete veier»</td><td><a href="https://opendatacommons.org/licenses/odbl/1-0/">ODbL 1.0</a></td><td>Kreditering; datasettet deles</td><td><a href="#svingete-veier">Svingete veier</a> · <a href="/rutelogger/svingete-veier/">datasett</a></td><td>OK</td></tr>
+            <tr><td>OpenStreetMap – steder</td><td>Steder langs ruten, camping, bobil, utsikt</td><td><a href="https://opendatacommons.org/licenses/odbl/1-0/">ODbL 1.0</a></td><td>Kreditering; datasettet deles</td><td><a href="#steder">Steder</a> · <a href="/rutelogger/steder/">datasett</a></td><td>OK</td></tr>
+            <tr><td>OpenStreetMap – turistveger</td><td>Danmark (Margueritruten) og Sverige</td><td><a href="https://opendatacommons.org/licenses/odbl/1-0/">ODbL 1.0</a></td><td>Kreditering; datasettet deles</td><td><a href="#turistveger">Turistveger</a> · <a href="/rutelogger/turistveger/">datasett</a></td><td>OK</td></tr>
+            <tr><td>OpenStreetMap – rutedata</td><td>Valhalla-ruting på enheten</td><td><a href="https://opendatacommons.org/licenses/odbl/1-0/">ODbL 1.0</a></td><td>Kreditering</td><td><a href="#rutemotor">Rutemotor</a></td><td>OK</td></tr>
+            <tr><td>Valhalla og 17 biblioteker</td><td>Rutemotoren</td><td>MIT, BSD, Apache 2.0, Boost m.fl.</td><td>Lisenstekstene følger med</td><td><a href="#rutemotor">Rutemotor</a></td><td>OK</td></tr>
+            <tr><td>Kart uten nett</td><td>OpenStreetMap via Protomaps, Natural Earth, kartstil, Noto Sans, symboler, MapLibre Native</td><td>ODbL, offentlig eiendom, BSD-3/CC0, OFL 1.1, MIT, BSD-2 m.fl.</td><td>Kreditering og lisenstekster</td><td><a href="#kart-uten-nett">Kart uten nett</a></td><td>OK</td></tr>
+            <tr><td>ESA WorldCover</td><td>Landdekke i laget «Terreng» (kart uten nett)</td><td><a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a></td><td>Kreditering</td><td><a href="#kart-uten-nett">Kart uten nett</a></td><td>OK</td></tr>
+            <tr><td>OpenTopoMap</td><td>Topografisk bunnkart (iPhone)</td><td>CC BY-SA (kartbildene); egne vilkår for flisserveren</td><td>Kreditering i kartet</td><td><a href="#opentopomap">OpenTopoMap</a></td><td>Skal tas ut av appen</td></tr>
+            <tr><td>Nasjonale turistveger</td><td>De norske turistvegene</td><td>Ikke oppgitt</td><td>–</td><td><a href="#turistveger">Turistveger</a></td><td>Uavklart – byttes til NVDB (NLOD)</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <section class="del" id="apple">
       <h2>Kart, ruter og søk – Apple</h2>
       <p>Kart, veibeskrivelser og adressesøk leveres av Apple Maps. Apples vilkår og kartkilder finner du under «Juridisk» nederst i kartet.</p>
     </section>
@@ -920,13 +951,13 @@ contain material derived from BSD and use the BSD 3-clause license.</pre>
       <p><a href="/rutelogger/steder/">Datasettet «Steder langs ruten»</a> · <a href="https://opendatacommons.org/licenses/odbl/1-0/">Lisens (ODbL 1.0)</a> · <a href="https://www.openstreetmap.org/copyright">OpenStreetMap – opphavsrett og lisens</a></p>
     </section>
 
-    <section class="del">
+    <section class="del" id="vegdata">
       <h2>Vegdata – Statens vegvesen</h2>
       <p>Inneholder data under Norsk lisens for offentlige data (NLOD) tilgjengeliggjort av Statens vegvesen. Vegnummer, kryss, fartsgrenser, skilt, rasteplasser, vegfølgende spor og vegforhold langs ruten (ferjer, grus, tunneler, vinterstrekninger, farlige strekninger) er hentet fra Nasjonal vegdatabank (NVDB) og bearbeidet av RuteLogger.</p>
       <p><a href="https://data.norge.no/nlod/no/2.0">Lisens (NLOD 2.0)</a> · <a href="https://nvdbapiles.atlas.vegvesen.no">NVDB</a></p>
     </section>
 
-    <section class="del">
+    <section class="del" id="trafikkmeldinger">
       <h2>Trafikkmeldinger – Statens vegvesen</h2>
       <p>Opplysninger om stengte veger og vegarbeid med ventetid kommer fra Statens vegvesens trafikkmeldinger (DATEX II), under Norsk lisens for offentlige data (NLOD). Et utvalg hentes hvert 10. minutt, og stedfestingen regnes om til kartkoordinater.</p>
       <p><a href="https://data.norge.no/nlod/no/2.0">Lisens (NLOD 2.0)</a> · <a href="/data/trafikkmeldinger.json">Utvalget som JSON</a></p>
@@ -953,32 +984,32 @@ contain material derived from BSD and use the BSD 3-clause license.</pre>
       <p><a href="/data/trafikkmeldinger.json">Utvalget som JSON</a></p>
     </section>
 
-    <section class="del">
+    <section class="del" id="kulturminner">
       <h2>Kulturminner – Riksantikvaren</h2>
       <p>Inneholder data under Norsk lisens for offentlige data (NLOD) tilgjengeliggjort av Riksantikvaren. Utvalg, periodeinndeling og sammenslåing er gjort av RuteLogger. Les mer om hvert kulturminne på Kulturminnesøk.</p>
       <p><a href="https://data.norge.no/nlod/no/2.0">Lisens (NLOD 2.0)</a> · <a href="https://www.kulturminnesok.no">Kulturminnesøk</a></p>
     </section>
 
-    <section class="del">
+    <section class="del" id="hoyde">
       <h2>Høyde – Kartverket</h2>
       <p>Høydedata fra Kartverket (© Kartverket), lisensiert under CC BY 4.0.</p>
       <p><a href="https://creativecommons.org/licenses/by/4.0/deed.no">Lisens (CC BY 4.0)</a> · <a href="https://www.kartverket.no">Kartverket</a></p>
     </section>
 
-    <section class="del">
+    <section class="del" id="vaer">
       <h2>Vær – MET Norway</h2>
       <p>Værdata fra MET Norway (Meteorologisk institutt), lisensiert under NLOD 2.0 og CC BY 4.0.</p>
       <p><a href="https://api.met.no">api.met.no</a></p>
     </section>
 
-    <section class="del">
+    <section class="del" id="svingete-veier">
       <h2>Svingete veier – OpenStreetMap</h2>
       <p>Kartlaget dekker Norge, Sverige, Finland, Danmark og Island. Det er beregnet av RuteLogger fra data fra OpenStreetMap (© OpenStreetMap-bidragsytere), tilgjengelig under Open Database License (ODbL).</p>
       <p>Datasettet med de svingete veiene, og metoden som lager det, kan lastes ned gratis under ODbL.</p>
       <p><a href="/rutelogger/svingete-veier/">Datasettet «Svingete veier»</a> · <a href="https://opendatacommons.org/licenses/odbl/1-0/">Lisens (ODbL 1.0)</a> · <a href="https://www.openstreetmap.org/copyright">OpenStreetMap – opphavsrett og lisens</a></p>
     </section>
 
-    <section class="del">
+    <section class="del" id="opentopomap">
       <h2>Topografisk kart – OpenTopoMap</h2>
       <p>Kartdata: © OpenStreetMap-bidragsytere, SRTM · Kartvisning: © OpenTopoMap (CC-BY-SA). Brukes som bunnkart på iPhone.</p>
       <p><a href="https://opentopomap.org">OpenTopoMap</a> · <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a></p>
