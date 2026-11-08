@@ -6,7 +6,7 @@ Dette er sporene for turistvegene i Danmark og Sverige i kartlaget «Turistveger
 **Open Database License (ODbL) 1.0**: https://opendatacommons.org/licenses/odbl/1-0/
 (full tekst i `LICENSE.txt`). Opphavsrett og lisens for OpenStreetMap: https://www.openstreetmap.org/copyright
 
-De norske turistvegene (Nasjonale turistveger) og de finske (Väylävirasto, CC BY 4.0) er ikke laget av
+De norske turistvegene (Statens vegvesen, NVDB, NLOD 2.0) og de finske (Väylävirasto, CC BY 4.0) er ikke laget av
 OpenStreetMap og er ikke med her. Se https://roijenapp.no/rutelogger/kreditering/#turistveger.
 
 ## Innhold
