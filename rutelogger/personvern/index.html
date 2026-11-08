@@ -15,7 +15,7 @@
 
     <header>
       <h1>Personvern i RuteLogger</h1>
-      <p class="ingress">Gjelder RuteLogger for iPhone og Mac. Sist endret 26. oktober 2026.</p>
+      <p class="ingress">Gjelder RuteLogger for iPhone og Mac. Sist endret 8. november 2026.</p>
     </header>
 
     <nav class="faner" aria-label="RuteLogger">
@@ -31,12 +31,13 @@
         <li>RuteLogger har ingen egen server som tar imot data. Utvikleren samler ikke inn, ser ikke og selger ikke data om deg.</li>
         <li>Appen har ingen reklame, ingen analyseverktøy og ingen sporing på tvers av apper eller nettsteder.</li>
         <li>For å vise kart, vegdata og vær sender appen koordinater direkte til tjenestene som er nevnt nedenfor.</li>
+        <li>Appen har ingen brukerkonto. Du trenger ikke oppgi navn eller e-post for å bruke den.</li>
       </ul>
     </section>
 
     <section class="del">
       <h2>Hvem står bak</h2>
-      <p>RuteLogger er laget av Mikael Røijen, Norge. Spørsmål om personvern sendes til <a href="mailto:support@roijenapp.no">support@roijenapp.no</a>.</p>
+      <p>RuteLogger er laget av Mikael Røijen, Norge. Behandlingsansvarlig er [Mikael Røijen / foretakets navn og organisasjonsnummer, adresse]. Spørsmål om personvern sendes til <a href="mailto:support@roijenapp.no">support@roijenapp.no</a>.</p>
     </section>
 
     <section class="del">
@@ -46,6 +47,8 @@
         <li><strong>Ruter og mål</strong> du lager eller importerer, og samlinger av dem.</li>
         <li><strong>Adresser</strong> du selv legger inn (hjem og jobb), og de siste målene du har søkt etter.</li>
         <li><strong>Innstillinger</strong>, for eksempel om motorveg og bomveg skal unngås.</li>
+        <li><strong>Kjøretid</strong> (iPhone): appen lærer hvor fort du pleier å kjøre på ulike typer veg, ut fra turene dine. Fartsprofilen lagres bare på telefonen, ikke i iCloud. Du kan slå læringen av og nullstille profilen under Innstillinger → Kjøretid. Turer med deling på telles ikke.</li>
+        <li><strong>Rundturer:</strong> en liste over rundturer appen har foreslått og du har brukt, som grove linjer, slik at nye forslag blir annerledes. Den lagres bare på enheten og kan slettes med «Glem tidligere rundturer».</li>
         <li><strong>Diagnostikklogg</strong> (iPhone): av som standard. Slår du den på, skrives en logg over navigasjonen og noen skjermbilder til telefonen. Den sendes ikke noe sted, med mindre du selv deler filene.</li>
       </ul>
       <p>Data om bevegelse fra telefonens sensorer brukes bare mens appen kjører, for å gi en jevnere retning i sakte svinger. De lagres ikke, bortsett fra i diagnostikkloggen når den er slått på.</p>
@@ -53,7 +56,7 @@
 
     <section class="del">
       <h2>iCloud (valgfritt)</h2>
-      <p>«Synk med iCloud» er av som standard. Slår du den på, lagres turer, ruter, mål og samlinger i din egen iCloud Drive, og noen innstillinger (unngå motorveg og bomveg, hjem- og jobbadresse) i iCloud. Da kan du bruke dem på flere enheter. Dataene ligger på Apple-kontoen din, og utvikleren har ikke tilgang til dem. Apples egne vilkår og <a href="https://www.apple.com/legal/privacy/">personvernerklæring</a> gjelder for iCloud.</p>
+      <p>«Synk med iCloud» er av som standard. Slår du den på, lagres turer, ruter, mål og samlinger i din egen iCloud Drive, og noen innstillinger (unngå motorveg og bomveg, hjem- og jobbadresse) i iCloud. Da kan du bruke dem på flere enheter. Dataene ligger på Apple-kontoen din, og utvikleren har ikke tilgang til dem. Apple lagrer og behandler dem etter Apples utvikleravtale for iCloud og CloudKit. Apples egne vilkår og <a href="https://www.apple.com/legal/privacy/">personvernerklæring</a> gjelder for iCloud.</p>
     </section>
 
     <section class="del">
@@ -79,11 +82,12 @@
         <li><strong>Meteorologisk institutt (MET Norway):</strong> avrundede koordinater langs ruten, for værvarsel. Appen oppgir appnavn, versjon og support@roijenapp.no som kontakt, slik vilkårene til MET krever.</li>
         <li><strong>Kartverket:</strong> punkter langs ruten, for høydeprofilen (Mac).</li>
         <li><strong>OpenTopoMap:</strong> kartbilder for området du ser på, når du bruker det topografiske kartet (iPhone).</li>
-        <li><strong>roijenapp.no (GitHub Pages):</strong> appen henter fila med trafikkmeldinger (stengte veger og vegarbeid) fra denne nettsiden (Mac). Forespørselen inneholder ingen koordinater. Nettsiden drives av GitHub, som ser IP-adressen din.</li>
+        <li><strong>roijenapp.no (GitHub Pages):</strong> appen henter to filer fra denne nettsiden: trafikkmeldinger (stengte veger, vegarbeid og ulykker) og kø (iPhone og Mac). Det er de samme filene for alle, og forespørselen inneholder ingen koordinater. Nettsiden drives av GitHub, som ser IP-adressen din og kan lagre den i sine logger etter <a href="https://docs.github.com/en/site-policy/privacy-policies/github-general-privacy-statement">GitHubs personvernerklæring</a>. Utvikleren får ikke se disse loggene.</li>
       </ul>
       <p><strong>Rutemotoren Valhalla</strong> (valgfri, Apple Kart er standard) regner ut rutene på enheten, uten nett. Den bruker en fil med rutedata som du selv legger inn med «Hent rutedata …». Selve rutingen sender da ingen posisjoner over nettet.</p>
       <p><strong>Kart uten nett</strong> (iPhone) leses bare fra en kartfil på telefonen som du selv legger inn. Kartmotoren MapLibre er satt opp uten kilder på nettet, så kartet gir ingen nye nettkall. MapLibre samler ikke inn data og sporer ikke.</p>
-      <p>Siri-kommandoer i appen behandles av Apple.</p>
+      <p><strong>Rutedata og kart uten nett</strong> (landpakker) legger du inn selv fra en mappe i iCloud Drive eller fra en disk. Appen henter dem ikke fra noen server hos utvikleren.</p>
+      <p>Siri-kommandoer og talesvar i appen («RuteLogger naviger ja») behandles av Apple.</p>
     </section>
 
     <section class="del">
@@ -105,6 +109,16 @@
         <li>Deling: slutt å dele, gå ut av gruppa eller slett gruppa du har opprettet. Personer du har delt med, kan fjernes fra lista i appen.</li>
         <li>E-post du sender til support@roijenapp.no, brukes bare til å svare deg. Du kan be om at den slettes.</li>
       </ul>
+    </section>
+
+    <section class="del">
+      <h2>Dine rettigheter</h2>
+      <p>Det meste av det appen lagrer, ligger på enheten din og i din egen iCloud, og du kan se, endre og slette det selv i appen. Utvikleren har ikke tilgang til det. Du har likevel rett til innsyn i, retting av og sletting av opplysninger vi eventuelt har om deg, for eksempel e-post du har sendt til support. Skriv til <a href="mailto:support@roijenapp.no">support@roijenapp.no</a>. Mener du at vi behandler personopplysninger i strid med reglene, kan du klage til <a href="https://www.datatilsynet.no">Datatilsynet</a>.</p>
+    </section>
+
+    <section class="del">
+      <h2>Brudd på personopplysningssikkerheten</h2>
+      <p>RuteLogger har ingen egen server med opplysninger om brukerne. Hvis vi likevel får vite om et brudd som gjelder opplysninger om deg, for eksempel e-post til support, varsler vi Datatilsynet innen 72 timer når loven krever det, og deg uten ugrunnet opphold hvis bruddet kan gi høy risiko for deg. Varsel til deg sendes på e-post hvis vi har adressen din, ellers på denne siden og i appen.</p>
     </section>
 
     <section class="del">
