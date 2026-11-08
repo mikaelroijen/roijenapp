@@ -23,7 +23,7 @@ Sverige, Finland, Danmark og Island.
   historikken til lageret https://github.com/mikaelroijen/roijenapp.
 - Nytt i versjon 2: camping er skilt ut fra overnatting, og bobilplasser og utsiktspunkter er lagt til, med avstand
   til nærmeste veg en motorsykkel kan kjøre på.
-- Fila er byte for byte den samme som ligger i appen (`RuteKjerne/Resources/steder.json`, kodeversjon COMMIT_ID,
+- Fila er byte for byte den samme som ligger i appen (`RuteKjerne/Resources/steder.json`, kodeversjon `ff28979`,
   SHA-256 `524b161291b937a0019de0b4b211cbd8dc1d374ee3ecf1a7b327e2daa3b5dd9d`).
 
 | Land | Bensin | Lading | Mat | Overnatting | Rasteplass | Camping | Bobil | Utsikt | Sum |
