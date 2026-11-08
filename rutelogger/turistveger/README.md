@@ -14,7 +14,7 @@ OpenStreetMap og er ikke med her. Se https://roijenapp.no/rutelogger/kreditering
 | Fil | Hva |
 |---|---|
 | `turistveger-danmark.geojson` | Margueritruten: 35 strekninger, ca. 4 093 km, som GeoJSON (WGS84). |
-| `turistveger-sverige.geojson` | 29 svenske turistveger: 47 strekninger, ca. 6 368 km, som GeoJSON (WGS84). |
+| `turistveger-sverige.geojson` | 29 svenske ruter (skiltede turistveger og kjente navngitte vegstrekninger): 47 strekninger, ca. 6 368 km, som GeoJSON (WGS84). |
 | `danmark/dk-*.json`, `sverige/se-*.json` | De samme strekningene, nøyaktig som de ligger i appen. |
 | `LICENSE.txt` | Lisensteksten (ODbL 1.0). |
 | `metode/turistveg_osm.py` | Lager strekninger fra en rute-relasjon i OpenStreetMap (brukt for Danmark og deler av Sverige). |

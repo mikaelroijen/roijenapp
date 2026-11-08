@@ -15,7 +15,7 @@
 
     <header>
       <h1>Datakilder og lisenser</h1>
-      <p class="ingress">RuteLogger bygger på åpne data fra norske etater og OpenStreetMap. Den samme krediteringen står under «Om RuteLogger» i appen.</p>
+      <p class="ingress">RuteLogger bygger på åpne data fra etater i Norge, Sverige og Finland og fra OpenStreetMap. Den samme krediteringen står under «Om RuteLogger» i appen.</p>
     </header>
 
     <nav class="faner" aria-label="RuteLogger">
@@ -45,7 +45,7 @@
             <tr><td>OpenStreetMap – steder</td><td>Steder langs ruten, camping, bobil, utsikt</td><td><a href="https://opendatacommons.org/licenses/odbl/1-0/">ODbL 1.0</a></td><td>Kreditering; datasettet deles</td><td><a href="#steder">Steder</a> · <a href="/rutelogger/steder/">datasett</a></td><td>OK</td></tr>
             <tr><td>OpenStreetMap – turistveger</td><td>Danmark (Margueritruten) og Sverige</td><td><a href="https://opendatacommons.org/licenses/odbl/1-0/">ODbL 1.0</a></td><td>Kreditering; datasettet deles</td><td><a href="#turistveger">Turistveger</a> · <a href="/rutelogger/turistveger/">datasett</a></td><td>OK</td></tr>
             <tr><td>OpenStreetMap – rutedata</td><td>Valhalla-ruting på enheten</td><td><a href="https://opendatacommons.org/licenses/odbl/1-0/">ODbL 1.0</a></td><td>Kreditering</td><td><a href="#rutemotor">Rutemotor</a></td><td>OK</td></tr>
-            <tr><td>Valhalla og 17 biblioteker</td><td>Rutemotoren</td><td>MIT, BSD, Apache 2.0, Boost m.fl.</td><td>Lisenstekstene følger med</td><td><a href="#rutemotor">Rutemotor</a></td><td>OK</td></tr>
+            <tr><td>Valhalla og komponentene i den</td><td>Rutemotoren</td><td>MIT, BSD, Apache 2.0, Boost m.fl.</td><td>Lisenstekstene følger med</td><td><a href="#rutemotor">Rutemotor</a></td><td>OK</td></tr>
             <tr><td>Kart uten nett</td><td>OpenStreetMap via Protomaps, Natural Earth, kartstil, Noto Sans, symboler, MapLibre Native</td><td>ODbL, offentlig eiendom, BSD-3/CC0, OFL 1.1, MIT, BSD-2 m.fl.</td><td>Kreditering og lisenstekster</td><td><a href="#kart-uten-nett">Kart uten nett</a></td><td>OK</td></tr>
             <tr><td>ESA WorldCover</td><td>Landdekke i laget «Terreng» (kart uten nett)</td><td><a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a></td><td>Kreditering</td><td><a href="#kart-uten-nett">Kart uten nett</a></td><td>OK</td></tr>
             <tr><td>OpenTopoMap</td><td>Topografisk bunnkart (iPhone)</td><td>CC BY-SA (kartbildene); egne vilkår for flisserveren</td><td>Kreditering i kartet</td><td><a href="#opentopomap">OpenTopoMap</a></td><td>Skal tas ut av appen</td></tr>
@@ -959,7 +959,7 @@ contain material derived from BSD and use the BSD 3-clause license.</pre>
 
     <section class="del" id="trafikkmeldinger">
       <h2>Trafikkmeldinger – Statens vegvesen</h2>
-      <p>Opplysninger om stengte veger og vegarbeid med ventetid kommer fra Statens vegvesens trafikkmeldinger (DATEX II), under Norsk lisens for offentlige data (NLOD). Et utvalg hentes hvert 10. minutt, og stedfestingen regnes om til kartkoordinater.</p>
+      <p>Opplysninger om stengte veger, vegarbeid med ventetid og ulykker kommer fra Statens vegvesens trafikkmeldinger (DATEX II), under Norsk lisens for offentlige data (NLOD). Et utvalg hentes hvert 5. minutt, og stedfestingen regnes om til kartkoordinater.</p>
       <p><a href="https://data.norge.no/nlod/no/2.0">Lisens (NLOD 2.0)</a> · <a href="/data/trafikkmeldinger.json">Utvalget som JSON</a></p>
     </section>
 
@@ -976,7 +976,7 @@ contain material derived from BSD and use the BSD 3-clause license.</pre>
 
     <section class="del" id="trafikkmeldinger-sverige-finland">
       <h2>Trafikkmeldinger – Sverige og Finland</h2>
-      <p>Stengte veger og vegarbeid med ventetid i Sverige og Finland hentes på samme måte og står i samme fil som de norske.</p>
+      <p>Stengte veger, vegarbeid med ventetid og ulykker i Sverige og Finland hentes på samme måte og står i samme fil som de norske.</p>
       <ul>
         <li><strong>Sverige:</strong> Trafikverket, öppna API för trafikinformation, under <a href="https://creativecommons.org/publicdomain/zero/1.0/deed.sv">CC0 1.0</a>.</li>
         <li><strong>Finland:</strong> Source: Fintraffic / <a href="https://www.digitraffic.fi/">digitraffic.fi</a>, license <a href="https://creativecommons.org/licenses/by/4.0/">CC 4.0 BY</a>. Endret: et utvalg av meldingene er tatt med, og formatet og stedfestingen er gjort om.</li>
