@@ -1,0 +1,64 @@
+<!doctype html>
+<html lang="nb">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Turistveger i Danmark og Sverige – datasett</title>
+  <meta name="description" content="Turistvegene i Danmark og Sverige i RuteLogger, laget av OpenStreetMap, under ODbL.">
+  <link rel="stylesheet" href="/style.css">
+</head>
+<body>
+  <div class="kart" aria-hidden="true"></div>
+
+  <main class="bred">
+    <p class="sti"><a href="/">Røijen Applikasjoner</a> › <a href="/rutelogger/">RuteLogger</a> › <a href="/rutelogger/kreditering/">Datakilder</a> › Turistveger</p>
+
+    <header>
+      <h1>Turistveger i Danmark og Sverige – datasett</h1>
+      <p class="ingress">Sporene bak kartlaget «Turistveger» i RuteLogger for Danmark og Sverige: 82 strekninger, ca. 10 460 km, laget av OpenStreetMap.</p>
+    </header>
+
+    <section class="del">
+      <h2>Last ned</h2>
+      <ul>
+        <li><a href="turistveger-danmark.geojson" download>turistveger-danmark.geojson</a> – Margueritruten, 35 strekninger (GeoJSON, ca. 1 MB)</li>
+        <li><a href="turistveger-sverige.geojson" download>turistveger-sverige.geojson</a> – 29 svenske turistveger, 47 strekninger (GeoJSON, ca. 1,5 MB)</li>
+        <li><a href="README.md">README.md</a> – kilde, format og metode, og lista over filene slik de ligger i appen</li>
+        <li><a href="LICENSE.txt">LICENSE.txt</a> – lisensteksten</li>
+        <li><a href="metode/turistveg_osm.py">metode/turistveg_osm.py</a> og <a href="metode/turistveg_sverige.py">metode/turistveg_sverige.py</a> – skriptene som lager datasettet</li>
+      </ul>
+      <p class="liten">Gratis. Ingen registrering.</p>
+    </section>
+
+    <section class="del">
+      <h2>Lisens</h2>
+      <p>Inneholder informasjon fra <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> (© OpenStreetMap-bidragsytere), som er gjort tilgjengelig her under <a href="https://opendatacommons.org/licenses/odbl/1-0/">Open Database License (ODbL)</a>.</p>
+    </section>
+
+    <section class="del">
+      <h2>Innhold, kilde og metode</h2>
+      <div class="tabell">
+        <table>
+          <thead><tr><th>Land</th><th>Turistveger</th><th>Strekninger</th><th>km</th></tr></thead>
+          <tbody>
+            <tr><td>Danmark</td><td>Margueritruten</td><td>35</td><td>4 093</td></tr>
+            <tr><td>Sverige</td><td>29</td><td>47</td><td>6 368</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p>Kildedata er OpenStreetMap-filene for Danmark og Sverige fra Geofabrik (23. oktober 2026). Datasettet ble laget 7. november 2026 og er det samme som ligger i appen.</p>
+      <p>Margueritruten er en skiltet rute og ligger som en samlet rute i OpenStreetMap. I Sverige er 6 av strekningene skiltede turistveger, og de andre er kjente navngitte vegstrekninger. Der en rute ikke finnes som én linje i OpenStreetMap, er sporet regnet ut som korteste veg gjennom oppgitte steder. For svenske strekninger står det også hvor stor del som er grusveg.</p>
+      <p>De norske og finske turistvegene er ikke laget av OpenStreetMap og står derfor ikke her. Kildene står på <a href="/rutelogger/kreditering/#turistveger">siden for datakilder</a>.</p>
+    </section>
+
+    <section class="del">
+      <h2>Ansvar</h2>
+      <p>Datasettet er laget automatisk og kan avvike fra skiltingen på stedet. Sjekk alltid skilt og vegforhold.</p>
+    </section>
+
+    <footer>
+      <p class="liten">© 2026 Mikael Røijen · <a href="mailto:support@roijenapp.no">support@roijenapp.no</a></p>
+    </footer>
+  </main>
+</body>
+</html>
