@@ -15,7 +15,7 @@
 
     <header>
       <h1>Personvern i RuteLogger</h1>
-      <p class="ingress">Gjelder RuteLogger for iPhone og Mac. Sist endret 8. november 2026.</p>
+      <p class="ingress">Gjelder RuteLogger for iPhone og Mac. Sist endret 13. november 2026.</p>
     </header>
 
     <nav class="faner" aria-label="RuteLogger">
@@ -83,9 +83,9 @@
         <li><strong>Kartverket:</strong> punkter langs ruten, for høydeprofilen (Mac).</li>
         <li><strong>roijenapp.no (GitHub Pages):</strong> appen henter to filer fra denne nettsiden: trafikkmeldinger (stengte veger, vegarbeid og ulykker) og kø (iPhone og Mac). Det er de samme filene for alle, og forespørselen inneholder ingen koordinater. Nettsiden drives av GitHub, som ser IP-adressen din og kan lagre den i sine logger etter <a href="https://docs.github.com/en/site-policy/privacy-policies/github-general-privacy-statement">GitHubs personvernerklæring</a>. Utvikleren får ikke se disse loggene.</li>
       </ul>
-      <p><strong>Rutemotoren Valhalla</strong> (valgfri, Apple Kart er standard) regner ut rutene på enheten, uten nett. Den bruker en fil med rutedata som du selv legger inn med «Hent rutedata …». Selve rutingen sender da ingen posisjoner over nettet.</p>
-      <p><strong>Kart uten nett</strong> (iPhone) leses bare fra en kartfil på telefonen som du selv legger inn. Kartmotoren MapLibre er satt opp uten kilder på nettet, så kartet gir ingen nye nettkall. MapLibre samler ikke inn data og sporer ikke.</p>
-      <p><strong>Rutedata og kart uten nett</strong> (landpakker) legger du inn selv fra en mappe i iCloud Drive eller fra en disk. Appen henter dem ikke fra noen server hos utvikleren.</p>
+      <p><strong>Rutemotoren Valhalla</strong> (standard; Apple Kart kan velges) regner ut rutene på enheten, uten nett. Den bruker rutedata som ligger på enheten. Selve rutingen sender ingen posisjoner over nettet.</p>
+      <p><strong>Kart uten nett</strong> (iPhone) leses bare fra en kartfil på telefonen. Kartmotoren MapLibre er satt opp uten kilder på nettet, så kartet gir ingen nye nettkall. MapLibre samler ikke inn data og sporer ikke.</p>
+      <p><strong>Rutedata og kart uten nett</strong> (landpakker) henter appen fra nett for landene du velger, eller fra en mappe (iCloud Drive eller disk) hvis du velger det. Ved henting fra nett leser appen først en liste over filene (katalog) på roijenapp.no og laster så ned filene fra GitHub (GitHub Releases). Forespørslene inneholder ikke posisjonen din. Navnet på hver fil viser hvilket land den gjelder. GitHub ser IP-adressen din, som for trafikkmeldingene. Før appen bruker mobilnett til nedlastingen, spør den deg. <a href="/rutelogger/data/">Om landpakkene</a>.</p>
       <p>Siri-kommandoer og talesvar i appen («RuteLogger naviger ja») behandles av Apple.</p>
     </section>
 
