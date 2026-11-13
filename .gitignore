@@ -1,4 +1,4 @@
-data/
+/data/
 forrige.json
 __pycache__/
 *.xml

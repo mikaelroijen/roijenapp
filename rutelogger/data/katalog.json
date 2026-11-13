@@ -1,0 +1,82 @@
+{
+ "utgave": "2026-10-31",
+ "omrade": "Norden (NO, SE, FI, DK, IS)",
+ "osm_data_per": "2026-10-30T21:24:51Z",
+ "rutedata": {
+  "fil": "rutedata.tar",
+  "valhalla": "3.9.1",
+  "kilde": "Geofabrik",
+  "bytes": 2054819840
+ },
+ "lisens": "Data © OpenStreetMap-bidragsytere, ODbL 1.0",
+ "landpakker": {
+  "NO": {
+   "navn": "Norge",
+   "rutedata": {
+    "fil": "landpakker/rutedata-NO.tar",
+    "bytes": 515205120,
+    "sha256": "151f657a4344d9806470baba1987caa41fb65b912802e26f752ab270acbcfb51"
+   },
+   "kart": {
+    "fil": "landpakker/kart-NO.pmtiles",
+    "bytes": 1668844426,
+    "sha256": "deb4fb99c5f3a8440e2f8237111f30e6da9b89a06ff2bf53dc5b83adab334a48"
+   }
+  },
+  "SE": {
+   "navn": "Sverige",
+   "rutedata": {
+    "fil": "landpakker/rutedata-SE.tar",
+    "bytes": 725739520,
+    "sha256": "cb4e7eb3d7cd8cbf8bf40d7d31fcac9546a49da9a1297476f82ead3580338107"
+   },
+   "kart": {
+    "fil": "landpakker/kart-SE.pmtiles",
+    "bytes": 1391224770,
+    "sha256": "7c6fab6b48d02f244f0e6db25fed8cf63171de10a614213659f880bc6547e65f"
+   }
+  },
+  "FI": {
+   "navn": "Finland",
+   "rutedata": {
+    "fil": "landpakker/rutedata-FI.tar",
+    "bytes": 570828800,
+    "sha256": "6cfb7c4e3cbd00af932396ae2ca2579cfc66f7fed1930ebf2790845f5881e07a"
+   },
+   "kart": {
+    "fil": "landpakker/kart-FI.pmtiles",
+    "bytes": 1012584929,
+    "sha256": "dce80154177a9828ed74cac204d1e1050365b116ccb705c449de956796a443eb"
+   }
+  },
+  "DK": {
+   "navn": "Danmark",
+   "rutedata": {
+    "fil": "landpakker/rutedata-DK.tar",
+    "bytes": 391249920,
+    "sha256": "1da1f37703495405687b2209f80fd89351ea476cbe8b47a72c2883294f65ae8f"
+   },
+   "kart": {
+    "fil": "landpakker/kart-DK.pmtiles",
+    "bytes": 294096568,
+    "sha256": "64ea2621870b38a773c1e4b323f8c052422a7cfc7b6aa08852c504fcb3257fcc"
+   }
+  },
+  "IS": {
+   "navn": "Island",
+   "rutedata": {
+    "fil": "landpakker/rutedata-IS.tar",
+    "bytes": 30638080,
+    "sha256": "55f4e56549f3eede87470d4f80360705dec2bc8738500f79400444e5ef3794a9"
+   },
+   "kart": {
+    "fil": "landpakker/kart-IS.pmtiles",
+    "bytes": 152395772,
+    "sha256": "b3a35679dcc353dfae2acb6d4bb6de841559989f8e16c65e951d4b7b24a23077"
+   }
+  }
+ },
+ "speil": [
+  "https://github.com/mikaelroijen/roijenapp/releases/download/data-2026-10-31/"
+ ]
+}

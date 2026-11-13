@@ -1,0 +1,66 @@
+<!doctype html>
+<html lang="nb">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Landpakker – rutedata og kart uten nett</title>
+  <meta name="description" content="Landpakkene RuteLogger laster ned: Valhalla-rutedata og kart uten nett for Norden, laget av OpenStreetMap, under ODbL.">
+  <link rel="stylesheet" href="/style.css">
+</head>
+<body>
+  <div class="kart" aria-hidden="true"></div>
+
+  <main class="bred">
+    <p class="sti"><a href="/">Røijen Applikasjoner</a> › <a href="/rutelogger/">RuteLogger</a> › <a href="/rutelogger/kreditering/">Datakilder</a> › Landpakker</p>
+
+    <header>
+      <h1>Landpakker – rutedata og kart uten nett</h1>
+      <p class="ingress">Filene RuteLogger henter når du velger land: rutedata for rutemotoren Valhalla og kart uten nett, ett par per land i Norden. Utgave 2026-10-31, OpenStreetMap-data per 30. oktober 2026.</p>
+    </header>
+
+    <section class="del">
+      <h2>Last ned</h2>
+      <p>Filene ligger som utgaven <a href="https://github.com/mikaelroijen/roijenapp/releases/tag/data-2026-10-31">data-2026-10-31 på GitHub</a>. Appen henter dem selv; du trenger ikke laste dem ned for hånd.</p>
+      <div class="tabell">
+        <table>
+          <thead><tr><th>Land</th><th>Rutedata (Valhalla)</th><th>Kart uten nett (PMTiles)</th></tr></thead>
+          <tbody>
+            <tr><td>Norge</td><td>rutedata-NO.tar, 491 MB</td><td>kart-NO.pmtiles, 1 592 MB</td></tr>
+            <tr><td>Sverige</td><td>rutedata-SE.tar, 692 MB</td><td>kart-SE.pmtiles, 1 327 MB</td></tr>
+            <tr><td>Finland</td><td>rutedata-FI.tar, 544 MB</td><td>kart-FI.pmtiles, 966 MB</td></tr>
+            <tr><td>Danmark</td><td>rutedata-DK.tar, 373 MB</td><td>kart-DK.pmtiles, 280 MB</td></tr>
+            <tr><td>Island</td><td>rutedata-IS.tar, 29 MB</td><td>kart-IS.pmtiles, 145 MB</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p class="liten">Gratis. Ingen registrering. Appen kontrollerer hver fil med SHA-256 før den tas i bruk.</p>
+      <ul>
+        <li><a href="katalog.json">katalog.json</a> – lista appen leser: filer, størrelser, SHA-256 og hvor de ligger</li>
+        <li><a href="README.md">README.md</a> – kilde, innhold og metode</li>
+        <li><a href="LICENSE.txt">LICENSE.txt</a> – lisensteksten (ODbL 1.0)</li>
+      </ul>
+    </section>
+
+    <section class="del">
+      <h2>Lisens</h2>
+      <p>Inneholder informasjon fra <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> (© OpenStreetMap-bidragsytere), som er gjort tilgjengelig her under <a href="https://opendatacommons.org/licenses/odbl/1-0/">Open Database License (ODbL)</a>.</p>
+      <p>Kartfilene er utsnitt av kartflisene fra Protomaps (OpenStreetMap og Natural Earth). Lisensene for kartstilen, skrifttypene og kartmotoren står på <a href="/rutelogger/kreditering/#kart-uten-nett">siden for datakilder</a>.</p>
+    </section>
+
+    <section class="del">
+      <h2>Kilde og metode</h2>
+      <p><strong>Rutedata:</strong> OpenStreetMap-filene for Norge, Sverige, Finland, Danmark og Island fra Geofabrik, gjort om til rutefliser med Valhalla 3.9.1 for motorsykkel. Norge er lagt inn som land i Valhallas landdata, så kjøreretning og avkjøringsnummer blir riktige. Landpakken er de flisene i Norden-fila som ligger innenfor Geofabriks grense for landet.</p>
+      <p><strong>Kart uten nett:</strong> utsnitt av Protomaps' daglige kartbygg, maks zoom 14, skåret ut etter de samme landgrensene. Kartflisene er ikke endret.</p>
+    </section>
+
+    <section class="del">
+      <h2>Ansvar</h2>
+      <p>Dataene er laget automatisk og kan være feil eller gamle. Sjekk alltid skilt og vegforhold.</p>
+    </section>
+
+    <footer>
+      <p class="liten">© 2026 Mikael Røijen · <a href="mailto:support@roijenapp.no">support@roijenapp.no</a></p>
+    </footer>
+  </main>
+</body>
+</html>
