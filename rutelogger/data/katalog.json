@@ -21,6 +21,11 @@
     "fil": "landpakker/kart-NO.pmtiles",
     "bytes": 1668844426,
     "sha256": "deb4fb99c5f3a8440e2f8237111f30e6da9b89a06ff2bf53dc5b83adab334a48"
+   },
+   "adresser": {
+    "fil": "landpakker/adresser-NO.sqlite",
+    "bytes": 83148800,
+    "sha256": "79eeceb7959ae3197ae5c63a68f11513d92bef25b9672dd8e0afd970cc7e3714"
    }
   },
   "SE": {
@@ -34,6 +39,11 @@
     "fil": "landpakker/kart-SE.pmtiles",
     "bytes": 1391224770,
     "sha256": "7c6fab6b48d02f244f0e6db25fed8cf63171de10a614213659f880bc6547e65f"
+   },
+   "adresser": {
+    "fil": "landpakker/adresser-SE.sqlite",
+    "bytes": 36573184,
+    "sha256": "1166349a46bc9ebfd6e2a2696133bc67675c84626b260972c8dcfc6b1e2cb484"
    }
   },
   "FI": {
@@ -47,6 +57,11 @@
     "fil": "landpakker/kart-FI.pmtiles",
     "bytes": 1012584929,
     "sha256": "dce80154177a9828ed74cac204d1e1050365b116ccb705c449de956796a443eb"
+   },
+   "adresser": {
+    "fil": "landpakker/adresser-FI.sqlite",
+    "bytes": 65515520,
+    "sha256": "7295995609133209082acb6b3aa4a7abd2525accac25a6f5b9be6bd2d038d271"
    }
   },
   "DK": {
@@ -60,6 +75,11 @@
     "fil": "landpakker/kart-DK.pmtiles",
     "bytes": 294096568,
     "sha256": "64ea2621870b38a773c1e4b323f8c052422a7cfc7b6aa08852c504fcb3257fcc"
+   },
+   "adresser": {
+    "fil": "landpakker/adresser-DK.sqlite",
+    "bytes": 63909888,
+    "sha256": "0c4ebc1996620c4d0c14be6ec0b9ce60ac9652a92ad08eefd63c8eff88f7a71d"
    }
   },
   "IS": {
@@ -73,6 +93,11 @@
     "fil": "landpakker/kart-IS.pmtiles",
     "bytes": 152395772,
     "sha256": "b3a35679dcc353dfae2acb6d4bb6de841559989f8e16c65e951d4b7b24a23077"
+   },
+   "adresser": {
+    "fil": "landpakker/adresser-IS.sqlite",
+    "bytes": 4898816,
+    "sha256": "045c79d00636cbe97815a1dc1e464d9fd866ce4103bef4af2e59e244843c89ef"
    }
   }
  },

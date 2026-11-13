@@ -120,6 +120,27 @@
    "lisens": "Offentlig eiendom",
    "adresse": "https://www.iana.org/time-zones",
    "tekst": "Unless specified below, all files in the tz code and data (including\nthis LICENSE file) are in the public domain.\n\nIf the files date.c, newstrftime.3, and strftime.c are present, they\ncontain material derived from BSD and use the BSD 3-clause license."
+  },
+  {
+   "navn": "Kartverket – Matrikkelen, adresser",
+   "versjon": "Adressesøk uten nett (Norge)",
+   "lisens": "CC BY 4.0",
+   "adresse": "https://kartkatalog.geonorge.no/metadata/matrikkelen-adresse/f7df7a18-b30f-4745-bd64-d0863812350c",
+   "tekst": "Inneholder data under Norsk lisens for offentlige data / Creative Commons Navngivelse 4.0 (CC BY 4.0) fra Kartverket: «Matrikkelen – Adresse».\n\nRuteLogger har bearbeidet adressene til en søkefil for adressesøk uten nett.\n\nLisens: https://creativecommons.org/licenses/by/4.0/deed.no"
+  },
+  {
+   "navn": "Suomen ympäristökeskus (Syke) – Ryhti, rakennusten osoitteet",
+   "versjon": "Adressesøk uten nett (Finland)",
+   "lisens": "CC BY 4.0",
+   "adresse": "https://ryhti.syke.fi/palvelut/palvelut-tiedon-hyodyntajille/",
+   "tekst": "Sisältää Suomen ympäristökeskuksen rakennetun ympäristön tietojärjestelmän (Ryhti) rakennusten osoitetietoja, lisenssi CC BY 4.0.\n\nInneholder bygningsadresser fra Ryhti, Suomen ympäristökeskus (Syke), under CC BY 4.0. RuteLogger har bearbeidet adressene til en søkefil for adressesøk uten nett.\n\nLisens: https://creativecommons.org/licenses/by/4.0/"
+  },
+  {
+   "navn": "Húsnæðis- og mannvirkjastofnun (HMS) – Staðfangaskrá",
+   "versjon": "Adressesøk uten nett (Island)",
+   "lisens": "Gjenbruk av offentlig informasjon (kilde skal oppgis)",
+   "adresse": "https://hms.is/gogn-og-maelabord/grunngogntilnidurhals/stadfangaskra",
+   "tekst": "Staðfangaskrá © Húsnæðis- og mannvirkjastofnun (HMS). Brukt etter de islandske retningslinjene for gjenbruk av offentlig informasjon («Leiðbeiningar varðandi endurnot opinberra upplýsinga»): gratis og tidsubegrenset bruk, kilden skal oppgis.\n\nRuteLogger har bearbeidet adressene til en søkefil for adressesøk uten nett."
   }
  ]
 }
